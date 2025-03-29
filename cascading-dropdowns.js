@@ -1,5 +1,5 @@
 // Process the location data into a usable format
-function processLocationData() {
+async function processLocationData() {
     console.log('Processing location data...');
     
     // Process the location data
@@ -377,14 +377,14 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize textarea specifically for address
     M.textareaAutoResize(document.getElementById('address'));
     
-    // Process location data
-    const locationData = processLocationData();
+    // Process location data - handled by script.js
+    // const locationData = processLocationData();
     
-    // Populate province dropdown
-    populateProvinceDropdown(locationData);
+    // Populate province dropdown - handled by script.js
+    // populateProvinceDropdown(locationData);
     
-    // Setup cascading dropdowns
-    setupCascadingDropdowns(locationData);
+    // Setup cascading dropdowns - handled by script.js
+    // setupCascadingDropdowns(locationData);
     
     // Add click event listener to the submit button
     const submitButton = document.getElementById('submitButton');

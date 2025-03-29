@@ -8,19 +8,29 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!-- Material Design CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
+    <!-- Google Fonts - Roboto (Material Design standard font) -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <script src="location-data.js"></script>
 </head>
 <body>
-    <div class="container">
-        <div class="row">
-            <div class="col s12">
-                <div class="card">
-                    <div class="card-content">
-                        <!-- Loading indicator - initially hidden -->
-                        <div id="loadingIndicator" class="center-align" style="display: none;">
+    <header>
+        <nav class="teal">
+            <div class="nav-wrapper container">
+                <a href="#" class="brand-logo">Data Form</a>
+            </div>
+        </nav>
+    </header>
+    
+    <main>
+        <div class="container">
+            <div class="row">
+                <div class="col s12">
+                    <!-- Progress indicator for loading data -->
+                    <div id="loadingIndicator" class="center-align" style="display: none;">
+                        <div class="progress-container">
                             <div class="preloader-wrapper active">
-                                <div class="spinner-layer spinner-green-only">
+                                <div class="spinner-layer spinner-teal-only">
                                     <div class="circle-clipper left">
                                         <div class="circle"></div>
                                     </div>
@@ -34,120 +44,144 @@
                             </div>
                             <p id="loadingText" class="loading-text">Loading data...</p>
                         </div>
-                        
-                        <span class="card-title center-align">Contact Information</span>
-                        <form id="contactForm">
-                            <div class="row">
-                                <div class="input-field col s12">
-                                    <i class="material-icons prefix">account_circle</i>
-                                    <input type="text" id="name" name="name" required>
-                                    <label for="name">Nama lengkap</label>
-                                </div>
-                                
-                                <div class="input-field col s12">
-                                    <i class="material-icons prefix">email</i>
-                                    <input type="email" id="email" name="email" required>
-                                    <label for="email">Email</label>
-                                </div>
-                                
-                                <div class="input-field col s12">
-                                    <i class="material-icons prefix">phone</i>
-                                    <input type="tel" id="phone" name="phone">
-                                    <label for="phone">No. Telepon</label>
-                                </div>
-                                
-                                <div class="input-field col s12">
-                                    <i class="material-icons prefix">location_city</i>
-                                    <input type="text" id="birthPlace" name="birthPlace">
-                                    <label for="birthPlace">Tempat Lahir</label>
-                                </div>
-                                
-                                <div class="input-field col s12">
-                                    <i class="material-icons prefix">event</i>
-                                    <input type="text" id="birthDate" name="birthDate" class="datepicker" required>
-                                    <label for="birthDate">Tanggal Lahir</label>
-                                </div>
-                                
-                                <div class="input-field col s12">
-                                    <i class="material-icons prefix">person</i>
-                                    <p class="gender-label">Jenis Kelamin</p>
-                                    <p>
-                                        <label>
-                                            <input name="gender" type="radio" value="Laki-laki" required />
-                                            <span>Laki-laki</span>
-                                        </label>
-                                    </p>
-                                    <p>
-                                        <label>
-                                            <input name="gender" type="radio" value="Perempuan" />
-                                            <span>Perempuan</span>
-                                        </label>
-                                    </p>
-                                </div>
-                                
-                                <div class="input-field col s12">
-                                    <i class="material-icons prefix">home</i>
-                                    <textarea id="address" name="address" class="materialize-textarea"></textarea>
-                                    <label for="address">Alamat tempat tinggal sekarang</label>
-                                </div>
-                                
-                                <div class="input-field col s12">
-                                    <i class="material-icons prefix">location_on</i>
-                                    <select id="provinceDropdown" name="province" required>
-                                        <option value="" disabled selected>Pilih Provinsi</option>
-                                    </select>
-                                    <label>Provinsi</label>
-                                </div>
-                                
-                                <div class="input-field col s12">
-                                    <i class="material-icons prefix">location_city</i>
-                                    <select id="cityDropdown" name="city" required disabled>
-                                        <option value="" disabled selected>Pilih Kota/Kabupaten</option>
-                                    </select>
-                                    <label>Kota/Kabupaten</label>
-                                </div>
-                                
-                                <div class="input-field col s12">
-                                    <i class="material-icons prefix">place</i>
-                                    <select id="districtDropdown" name="district" required disabled>
-                                        <option value="" disabled selected>Pilih Kecamatan</option>
-                                    </select>
-                                    <label>Kecamatan</label>
-                                </div>
-                                
-                                <div class="input-field col s12">
-                                    <i class="material-icons prefix">apartment</i>
-                                    <select id="subDistrictDropdown" name="subDistrict" required disabled>
-                                        <option value="" disabled selected>Pilih Kelurahan</option>
-                                    </select>
-                                    <label>Kelurahan</label>
-                                </div>
-                                
-                                <div class="input-field col s12">
-                                    <i class="material-icons prefix">markunread_mailbox</i>
-                                    <input type="text" id="postalCode" name="postalCode" readonly>
-                                    <label for="postalCode">Kode Pos</label>
-                                </div>
-                            </div>
-                        </form>
                     </div>
-                </div>
-                
-                <!-- Separate card for submit button -->
-                <div class="card submit-card">
-                    <div class="card-content center-align">
-                        <button type="button" id="submitButton" class="btn waves-effect waves-light">
-                            Submit
-                            <i class="material-icons right">send</i>
-                        </button>
+                    
+                    <div class="card z-depth-2">
+                        <div class="card-content">
+                            <span class="card-title center-align">Contact Information</span>
+                            <form id="contactForm">
+                                <div class="row">
+                                    <!-- Personal Information Section -->
+                                    <div class="col s12">
+                                        <h6 class="section-title teal-text">Personal Information</h6>
+                                        <div class="divider"></div>
+                                    </div>
+                                    
+                                    <div class="input-field col s12">
+                                        <i class="material-icons prefix">account_circle</i>
+                                        <input type="text" id="name" name="name" class="validate" required>
+                                        <label for="name">Nama lengkap</label>
+                                        <span class="helper-text" data-error="This field is required"></span>
+                                    </div>
+                                    
+                                    <div class="input-field col s12">
+                                        <i class="material-icons prefix">email</i>
+                                        <input type="email" id="email" name="email" class="validate" required>
+                                        <label for="email">Email</label>
+                                        <span class="helper-text" data-error="Please enter a valid email"></span>
+                                    </div>
+                                    
+                                    <div class="input-field col s12">
+                                        <i class="material-icons prefix">phone</i>
+                                        <input type="tel" id="phone" name="phone" class="validate">
+                                        <label for="phone">No. Telepon</label>
+                                    </div>
+                                    
+                                    <div class="input-field col s12">
+                                        <i class="material-icons prefix">location_city</i>
+                                        <input type="text" id="birthPlace" name="birthPlace" class="validate">
+                                        <label for="birthPlace">Tempat Lahir</label>
+                                    </div>
+                                    
+                                    <div class="input-field col s12">
+                                        <i class="material-icons prefix">event</i>
+                                        <input type="text" id="birthDate" name="birthDate" class="datepicker validate" required>
+                                        <label for="birthDate">Tanggal Lahir</label>
+                                        <span class="helper-text" data-error="This field is required"></span>
+                                    </div>
+                                    
+                                    <div class="input-field col s12">
+                                        <i class="material-icons prefix">person</i>
+                                        <div class="gender-label">Jenis Kelamin</div>
+                                        <div>
+                                            <label>
+                                                <input name="gender" type="radio" value="Laki-laki" required />
+                                                <span>Laki-laki</span>
+                                            </label>
+                                        </div>
+                                        <div>
+                                            <label>
+                                                <input name="gender" type="radio" value="Perempuan" />
+                                                <span>Perempuan</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Address Section -->
+                                    <div class="col s12">
+                                        <h6 class="section-title teal-text">Address Information</h6>
+                                        <div class="divider"></div>
+                                    </div>
+                                    
+                                    <div class="input-field col s12">
+                                        <i class="material-icons prefix">home</i>
+                                        <textarea id="address" name="address" class="materialize-textarea"></textarea>
+                                        <label for="address">Alamat tempat tinggal sekarang</label>
+                                    </div>
+                                    
+                                    <div class="input-field col s12">
+                                        <i class="material-icons prefix">location_on</i>
+                                        <select id="provinceDropdown" name="province" required>
+                                            <option value="" disabled selected>Pilih Provinsi</option>
+                                        </select>
+                                        <label>Provinsi</label>
+                                    </div>
+                                    
+                                    <div class="input-field col s12">
+                                        <i class="material-icons prefix">location_city</i>
+                                        <select id="cityDropdown" name="city" required disabled>
+                                            <option value="" disabled selected>Pilih Kota/Kabupaten</option>
+                                        </select>
+                                        <label>Kota/Kabupaten</label>
+                                    </div>
+                                    
+                                    <div class="input-field col s12">
+                                        <i class="material-icons prefix">place</i>
+                                        <select id="districtDropdown" name="district" required disabled>
+                                            <option value="" disabled selected>Pilih Kecamatan</option>
+                                        </select>
+                                        <label>Kecamatan</label>
+                                    </div>
+                                    
+                                    <div class="input-field col s12">
+                                        <i class="material-icons prefix">apartment</i>
+                                        <select id="subDistrictDropdown" name="subDistrict" required disabled>
+                                            <option value="" disabled selected>Pilih Kelurahan</option>
+                                        </select>
+                                        <label>Kelurahan</label>
+                                    </div>
+                                    
+                                    <div class="input-field col s12">
+                                        <i class="material-icons prefix">markunread_mailbox</i>
+                                        <input type="text" id="postalCode" name="postalCode" readonly>
+                                        <label for="postalCode">Kode Pos</label>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="card-action center-align">
+                            <button type="button" id="submitButton" class="btn-large waves-effect waves-light teal">
+                                Submit
+                                <i class="material-icons right">send</i>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </main>
+    
+    <footer class="page-footer teal">
+        <div class="footer-copyright">
+            <div class="container center-align">
+                2025 Data Form
+            </div>
+        </div>
+    </footer>
 
     <!-- Material Design JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script src="cascading-dropdowns.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>

@@ -1,4 +1,9 @@
-const FORM_ID = process.env.FORM_ID;
+let FORM_ID;
+if (typeof process !== 'undefined' && process.env) {
+    FORM_ID = process.env.FORM_ID;
+} else {
+    FORM_ID = '012394';
+}
 
 // Function to load the location data from the external file
 async function loadLocationData() {
@@ -70,14 +75,12 @@ async function processLocationData(locationData) {
         // Update loading message
         updateProgressIndicator('Processing data...', 80);
         
-        console.log('Processing location data:', locationData);
-        
-        // Process the location data
-        // Using setTimeout and Promise to allow UI to update and show progress
-        await new Promise(resolve => setTimeout(resolve, 100));
-        
         updateProgressIndicator('Converting data format...', 85);
-        const rows = locationData.map(location => {
+        // Ensure locationData is loaded by awaiting it if it's a Promise
+        const data = await locationData;
+        
+        console.log('Processing location data:', data);
+        const rows = data.map(location => {
             const parts = location.split('|');
             return [
                 parts[0] || '', // Province
@@ -95,13 +98,11 @@ async function processLocationData(locationData) {
         
         updateProgressIndicator('Populating dropdowns...', 90);
         // Populate the province dropdown
-        await new Promise(resolve => setTimeout(resolve, 100));
-        populateProvinceDropdown(rows);
+        await populateProvinceDropdown(rows);
         
         updateProgressIndicator('Setting up interactions...', 95);
         // Setup event listeners for cascading dropdowns
-        await new Promise(resolve => setTimeout(resolve, 100));
-        setupCascadingDropdowns(rows);
+        await setupCascadingDropdowns(rows);
         
         // Update loading indicator to show "Ready"
         updateProgressIndicator('Ready', 100);
@@ -127,12 +128,15 @@ async function processLocationData(locationData) {
 }
 
 // Function to populate the province dropdown
-function populateProvinceDropdown(rows) {
+async function populateProvinceDropdown(rows) {
     const provinceDropdown = document.getElementById('provinceDropdown');
     if (!provinceDropdown) return;
     
-    // Get unique provinces (first column, index 0)
-    const provinces = [...new Set(rows.map(row => row[0]))].filter(Boolean).sort();
+    // Ensure rows is resolved if it's a Promise
+    const resolvedRows = await rows;
+    console.log('Populating province dropdown with data:', typeof resolvedRows, resolvedRows);
+    
+    const provinces = [...new Set(resolvedRows.map(row => row && row[0] || ''))].filter(Boolean).sort();
     
     // Clear existing options
     provinceDropdown.innerHTML = '';
@@ -163,7 +167,7 @@ function populateProvinceDropdown(rows) {
 }
 
 // Function to setup event listeners for cascading dropdowns
-function setupCascadingDropdowns(rows) {
+async function setupCascadingDropdowns(rows) {
     const provinceDropdown = document.getElementById('provinceDropdown');
     const cityDropdown = document.getElementById('cityDropdown');
     const districtDropdown = document.getElementById('districtDropdown');
@@ -171,6 +175,10 @@ function setupCascadingDropdowns(rows) {
     const postalCodeInput = document.getElementById('postalCode');
     
     if (!provinceDropdown || !cityDropdown || !districtDropdown || !subDistrictDropdown || !postalCodeInput) return;
+    
+    // Ensure rows is resolved if it's a Promise
+    const resolvedRows = await rows;
+    console.log('Setting up cascading dropdowns with data:', typeof resolvedRows, resolvedRows);
     
     // When province is selected, populate cities
     provinceDropdown.addEventListener('change', function() {
@@ -182,7 +190,7 @@ function setupCascadingDropdowns(rows) {
         // Filter rows for the selected province
         // Province is in column 0, city is in column 1
         const cities = [...new Set(
-            rows.filter(row => row[0] === selectedProvince)
+            resolvedRows.filter(row => row[0] === selectedProvince)
                 .map(row => row[1])
         )].filter(Boolean).sort();
         
@@ -239,7 +247,7 @@ function setupCascadingDropdowns(rows) {
         // Filter rows for the selected province and city
         // Province is in column 0, city is in column 1, district is in column 2
         const districts = [...new Set(
-            rows.filter(row => row[0] === selectedProvince && row[1] === selectedCity)
+            resolvedRows.filter(row => row[0] === selectedProvince && row[1] === selectedCity)
                 .map(row => row[2])
         )].filter(Boolean).sort();
         
@@ -293,7 +301,7 @@ function setupCascadingDropdowns(rows) {
         // Filter rows for the selected province, city, and district
         // Province is in column 0, city is in column 1, district is in column 2, sub-district is in column 3
         const subDistricts = [...new Set(
-            rows.filter(row => 
+            resolvedRows.filter(row => 
                 row[0] === selectedProvince && 
                 row[1] === selectedCity && 
                 row[2] === selectedDistrict
@@ -341,7 +349,7 @@ function setupCascadingDropdowns(rows) {
         
         // Find the matching row to get the postal code
         // Province is in column 0, city is in column 1, district is in column 2, sub-district is in column 3, postal code is in column 4
-        const matchingRow = rows.find(row => 
+        const matchingRow = resolvedRows.find(row => 
             row[0] === selectedProvince && 
             row[1] === selectedCity && 
             row[2] === selectedDistrict && 
