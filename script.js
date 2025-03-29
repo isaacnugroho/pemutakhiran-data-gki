@@ -12,17 +12,24 @@ async function loadLocationData() {
         // Check if LOCATION_DATA is already loaded (from the external script)
         if (typeof LOCATION_DATA !== 'undefined') {
             console.log('Location data already loaded from script tag');
-            return processLocationData(LOCATION_DATA);
+            updateProgressIndicator('Processing data...', 25);
+            return await processLocationData(LOCATION_DATA);
         }
         
         // If not loaded via script tag, fetch it
+        console.log('Fetching location data from file');
+        updateProgressIndicator('Fetching location data...', 10);
+        
         const response = await fetch('location-data.js');
         if (!response.ok) {
             throw new Error(`Failed to load location data: ${response.status} ${response.statusText}`);
         }
         
+        updateProgressIndicator('Downloading data...', 30);
         const dataText = await response.text();
+        console.log('Received data text:', dataText.substring(0, 100) + '...');
         
+        updateProgressIndicator('Parsing data...', 50);
         // Extract the array from the text (simple approach)
         const arrayMatch = dataText.match(/LOCATION_DATA\s*=\s*\[([\s\S]*?)\];/);
         if (!arrayMatch || !arrayMatch[1]) {
@@ -31,9 +38,10 @@ async function loadLocationData() {
         
         // Create the array by evaluating the extracted content
         const locationDataString = `[${arrayMatch[1]}]`;
+        updateProgressIndicator('Preparing data...', 70);
         const locationData = eval(locationDataString); // Note: eval is used for simplicity, consider safer alternatives in production
         
-        return processLocationData(locationData);
+        return await processLocationData(locationData);
     } catch (error) {
         console.error('Error loading location data:', error);
         // Update loading indicator to show error
@@ -47,14 +55,28 @@ async function loadLocationData() {
     }
 }
 
+// Helper function to update the progress indicator
+function updateProgressIndicator(message, percentage) {
+    const loadingText = document.getElementById('loadingText');
+    if (loadingText) {
+        loadingText.textContent = `${message} (${percentage}%)`;
+    }
+    // You could also update a progress bar here if you have one
+}
+
 // Function to process the location data into a usable format
-function processLocationData(locationData) {
+async function processLocationData(locationData) {
     try {
         // Update loading message
-        const loadingText = document.getElementById('loadingText');
-        loadingText.textContent = 'Processing data...';
+        updateProgressIndicator('Processing data...', 80);
+        
+        console.log('Processing location data:', locationData);
         
         // Process the location data
+        // Using setTimeout and Promise to allow UI to update and show progress
+        await new Promise(resolve => setTimeout(resolve, 100));
+        
+        updateProgressIndicator('Converting data format...', 85);
         const rows = locationData.map(location => {
             const parts = location.split('|');
             return [
@@ -71,14 +93,19 @@ function processLocationData(locationData) {
         // Store the data for later use
         window.locationData = rows;
         
+        updateProgressIndicator('Populating dropdowns...', 90);
         // Populate the province dropdown
+        await new Promise(resolve => setTimeout(resolve, 100));
         populateProvinceDropdown(rows);
         
+        updateProgressIndicator('Setting up interactions...', 95);
         // Setup event listeners for cascading dropdowns
+        await new Promise(resolve => setTimeout(resolve, 100));
         setupCascadingDropdowns(rows);
         
         // Update loading indicator to show "Ready"
-        loadingText.textContent = 'Ready';
+        updateProgressIndicator('Ready', 100);
+        const loadingText = document.getElementById('loadingText');
         loadingText.style.color = '#26a69a';
         
         // Hide loading indicator after a short delay
@@ -126,8 +153,13 @@ function populateProvinceDropdown(rows) {
         provinceDropdown.appendChild(option);
     });
     
-    // Initialize Materialize select
-    M.FormSelect.init(provinceDropdown);
+    // Initialize Materialize select with custom options
+    M.FormSelect.init(provinceDropdown, {
+        dropdownOptions: {
+            coverTrigger: false,
+            constrainWidth: false
+        }
+    });
 }
 
 // Function to setup event listeners for cascading dropdowns
@@ -184,10 +216,16 @@ function setupCascadingDropdowns(rows) {
         postalCodeInput.value = '';
         M.updateTextFields(); // Update Materialize text fields
         
-        // Re-initialize Materialize selects
-        M.FormSelect.init(cityDropdown);
-        M.FormSelect.init(districtDropdown);
-        M.FormSelect.init(subDistrictDropdown);
+        // Re-initialize Materialize selects with custom options
+        const dropdownOptions = {
+            dropdownOptions: {
+                coverTrigger: false,
+                constrainWidth: false
+            }
+        };
+        M.FormSelect.init(cityDropdown, dropdownOptions);
+        M.FormSelect.init(districtDropdown, dropdownOptions);
+        M.FormSelect.init(subDistrictDropdown, dropdownOptions);
     });
     
     // When city is selected, populate districts
@@ -232,9 +270,15 @@ function setupCascadingDropdowns(rows) {
         postalCodeInput.value = '';
         M.updateTextFields(); // Update Materialize text fields
         
-        // Re-initialize Materialize selects
-        M.FormSelect.init(districtDropdown);
-        M.FormSelect.init(subDistrictDropdown);
+        // Re-initialize Materialize selects with custom options
+        const dropdownOptions = {
+            dropdownOptions: {
+                coverTrigger: false,
+                constrainWidth: false
+            }
+        };
+        M.FormSelect.init(districtDropdown, dropdownOptions);
+        M.FormSelect.init(subDistrictDropdown, dropdownOptions);
     });
     
     // When district is selected, populate sub-districts
@@ -279,8 +323,13 @@ function setupCascadingDropdowns(rows) {
         postalCodeInput.value = '';
         M.updateTextFields(); // Update Materialize text fields
         
-        // Re-initialize Materialize select
-        M.FormSelect.init(subDistrictDropdown);
+        // Re-initialize Materialize select with custom options
+        M.FormSelect.init(subDistrictDropdown, {
+            dropdownOptions: {
+                coverTrigger: false,
+                constrainWidth: false
+            }
+        });
     });
     
     // When sub-district is selected, set postal code
@@ -311,10 +360,104 @@ function setupCascadingDropdowns(rows) {
     });
 }
 
+// Function to handle form submission
+function handleFormSubmit() {
+    // Trigger form validation
+    if (!validateForm()) {
+        return;
+    }
+    
+    // Show loading indicator
+    loadingIndicator.style.display = 'block';
+    document.getElementById('loadingText').textContent = 'Submitting your information...';
+    
+    // Get form values
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const phone = document.getElementById('phone').value;
+    const province = document.getElementById('provinceDropdown').value;
+    const city = document.getElementById('cityDropdown').value;
+    const district = document.getElementById('districtDropdown').value;
+    const subDistrict = document.getElementById('subDistrictDropdown').value;
+    const postalCode = document.getElementById('postalCode').value;
+    const address = document.getElementById('address').value;
+    
+    // Format the full address with the selected regions
+    const fullAddress = `${address}, ${subDistrict}, ${district}, ${city}, ${province} ${postalCode}`;
+    
+    // Replace this URL with your actual Google Form URL
+    // This is an example structure - you'll need to replace with your actual Google Form ID and field entry IDs
+    // Format: https://docs.google.com/forms/d/e/[YOUR_FORM_ID]/viewform?usp=pp_url&entry.[FIELD_ID]=[VALUE]
+    
+    // Example Google Form URL (you need to replace with your actual form ID and entry IDs)
+    const googleFormBaseUrl = 'https://docs.google.com/forms/d/e/' + FORM_ID + '/viewform';
+    
+    // Build the URL with prefilled values
+    // Note: You need to replace these entry IDs with the actual IDs from your Google Form
+    const prefilledUrl = `${googleFormBaseUrl}?usp=pp_url&entry.123456=${encodeURIComponent(name)}&entry.234567=${encodeURIComponent(email)}&entry.345678=${encodeURIComponent(phone)}&entry.456789=${encodeURIComponent(fullAddress)}&entry.567890=${encodeURIComponent(province)}&entry.678901=${encodeURIComponent(city)}&entry.789012=${encodeURIComponent(district)}&entry.890123=${encodeURIComponent(subDistrict)}&entry.901234=${encodeURIComponent(postalCode)}`;
+    
+    // Show toast notification
+    M.toast({html: 'Submitting form...', classes: 'rounded'});
+    
+    // Redirect to the Google Form after a short delay
+    setTimeout(function() {
+        window.open(prefilledUrl, '_blank');
+        // Hide loading indicator after redirect
+        loadingIndicator.style.display = 'none';
+    }, 1500);
+}
+
+// Function to validate the form
+function validateForm() {
+    // Check required fields
+    const requiredFields = [
+        { id: 'name', label: 'Name' },
+        { id: 'email', label: 'Email' },
+        { id: 'provinceDropdown', label: 'Province' },
+        { id: 'cityDropdown', label: 'City' },
+        { id: 'districtDropdown', label: 'District' },
+        { id: 'subDistrictDropdown', label: 'Sub-district' }
+    ];
+    
+    let isValid = true;
+    
+    requiredFields.forEach(field => {
+        const element = document.getElementById(field.id);
+        if (!element.value) {
+            M.toast({html: `${field.label} is required`, classes: 'rounded red'});
+            isValid = false;
+        }
+    });
+    
+    // Validate email format if provided
+    const email = document.getElementById('email').value;
+    if (email && !isValidEmail(email)) {
+        M.toast({html: 'Please enter a valid email address', classes: 'rounded red'});
+        isValid = false;
+    }
+    
+    return isValid;
+}
+
+// Function to validate email format
+function isValidEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize Material components
     M.AutoInit();
     
+    // Specifically initialize select dropdowns with custom options
+    const selects = document.querySelectorAll('select');
+    M.FormSelect.init(selects, {
+        dropdownOptions: {
+            coverTrigger: false,
+            constrainWidth: false
+        }
+    });
+
     // Initialize textarea specifically for address
     M.textareaAutoResize(document.getElementById('address'));
     
@@ -322,48 +465,9 @@ document.addEventListener('DOMContentLoaded', function() {
     loadLocationData();
     
     const form = document.getElementById('contactForm');
+    const submitButton = document.getElementById('submitButton');
     const loadingIndicator = document.getElementById('loadingIndicator');
     
-    form.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        // Show loading indicator
-        loadingIndicator.style.display = 'block';
-        document.getElementById('loadingText').textContent = 'Submitting your information...';
-        
-        // Get form values
-        const name = document.getElementById('name').value;
-        const email = document.getElementById('email').value;
-        const phone = document.getElementById('phone').value;
-        const province = document.getElementById('provinceDropdown').value;
-        const city = document.getElementById('cityDropdown').value;
-        const district = document.getElementById('districtDropdown').value;
-        const subDistrict = document.getElementById('subDistrictDropdown').value;
-        const postalCode = document.getElementById('postalCode').value;
-        const address = document.getElementById('address').value;
-        
-        // Format the full address with the selected regions
-        const fullAddress = `${address}, ${subDistrict}, ${district}, ${city}, ${province} ${postalCode}`;
-        
-        // Replace this URL with your actual Google Form URL
-        // This is an example structure - you'll need to replace with your actual Google Form ID and field entry IDs
-        // Format: https://docs.google.com/forms/d/e/[YOUR_FORM_ID]/viewform?usp=pp_url&entry.[FIELD_ID]=[VALUE]
-        
-        // Example Google Form URL (you need to replace with your actual form ID and entry IDs)
-        const googleFormBaseUrl = 'https://docs.google.com/forms/d/e/' + FORM_ID + '/viewform';
-        
-        // Build the URL with prefilled values
-        // Note: You need to replace these entry IDs with the actual IDs from your Google Form
-        const prefilledUrl = `${googleFormBaseUrl}?usp=pp_url&entry.123456=${encodeURIComponent(name)}&entry.234567=${encodeURIComponent(email)}&entry.345678=${encodeURIComponent(phone)}&entry.456789=${encodeURIComponent(fullAddress)}&entry.567890=${encodeURIComponent(province)}&entry.678901=${encodeURIComponent(city)}&entry.789012=${encodeURIComponent(district)}&entry.890123=${encodeURIComponent(subDistrict)}&entry.901234=${encodeURIComponent(postalCode)}`;
-        
-        // Show toast notification
-        M.toast({html: 'Submitting form...', classes: 'rounded'});
-        
-        // Redirect to the Google Form after a short delay
-        setTimeout(function() {
-            window.open(prefilledUrl, '_blank');
-            // Hide loading indicator after redirect
-            loadingIndicator.style.display = 'none';
-        }, 1500);
-    });
+    // Add click event listener to the submit button
+    submitButton.addEventListener('click', handleFormSubmit);    
 });

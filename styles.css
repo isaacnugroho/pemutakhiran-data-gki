@@ -27,12 +27,15 @@ body {
 }
 
 .card {
+    margin: 2rem 0;
     border-radius: 8px;
     width: 100%;
 }
 
 .card-content {
-    padding: 30px !important;
+    padding: 24px;
+    max-height: 80vh; /* Set maximum height to 80% of viewport height */
+    overflow-y: auto; /* Enable vertical scrolling */
 }
 
 .card-title {
@@ -52,11 +55,8 @@ h1 {
 }
 
 .input-field {
-    margin-bottom: 25px;
-}
-
-.input-field .prefix {
-    color: #26a69a;
+    margin-bottom: 20px;
+    position: relative;
 }
 
 label {
@@ -87,6 +87,10 @@ input:focus + label, textarea:focus + label {
     color: #26a69a !important;
 }
 
+.input-field .prefix {
+    color: #26a69a;
+}
+
 .input-field .prefix.active {
     color: #26a69a !important;
 }
@@ -115,7 +119,7 @@ input:focus + label, textarea:focus + label {
 }
 
 .loading-text {
-    margin-top: 15px;
+    margin-top: 10px;
     color: #26a69a;
     font-weight: 500;
 }
@@ -124,31 +128,76 @@ input:focus + label, textarea:focus + label {
     border-color: #26a69a;
 }
 
-.region-selectors {
-    background-color: rgba(38, 166, 154, 0.05);
-    padding: 15px;
-    border-radius: 8px;
-    margin-bottom: 20px;
+/* Fix dropdown display issues */
+.select-wrapper .dropdown-content {
+    width: 100% !important;
+    top: auto !important;
+    left: 0 !important;
+    position: absolute !important;
+    max-height: 300px !important;
+    overflow-y: auto !important;
 }
 
-.region-selectors .input-field {
-    margin-bottom: 15px;
+.select-wrapper {
+    margin-bottom: 35px !important;
 }
 
-.region-selectors .select-wrapper input.select-dropdown {
-    border-bottom: 1px solid rgba(38, 166, 154, 0.5);
+/* Ensure proper stacking of dropdown menus */
+.select-wrapper .dropdown-content {
+    z-index: 999 !important;
 }
 
-.region-selectors .select-wrapper input.select-dropdown:focus {
-    border-bottom: 1px solid #26a69a !important;
+/* Ensure dropdown options are visible */
+.select-wrapper .dropdown-content li {
+    min-height: 40px;
 }
 
-.region-selectors .dropdown-content li>span {
+.select-wrapper .dropdown-content li > span {
+    padding: 10px 16px;
     color: #26a69a;
 }
 
-.region-selectors .dropdown-content li.selected>span {
+.select-wrapper .dropdown-content li.selected > span {
     background-color: rgba(38, 166, 154, 0.1);
+}
+
+/* Submit card styling */
+.submit-card {
+    margin-top: 15px;
+    margin-bottom: 30px;
+}
+
+.submit-card .card-content {
+    padding: 16px;
+}
+
+.submit-card .btn {
+    margin: 0;
+}
+
+/* Scrollbar styling for better appearance */
+.card-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.card-content::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.card-content::-webkit-scrollbar-thumb {
+    background: #26a69a;
+    border-radius: 4px;
+}
+
+.card-content::-webkit-scrollbar-thumb:hover {
+    background: #1d7d74;
+}
+
+/* Submit button container styling */
+.submit-button-container {
+    margin-top: 20px;
+    padding-top: 10px;
 }
 
 @media only screen and (max-width: 992px) {

@@ -9,7 +9,6 @@
     <!-- Material Design CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
-    <!-- Location Data -->
     <script src="location-data.js"></script>
 </head>
 <body>
@@ -38,82 +37,80 @@
                         
                         <span class="card-title center-align">Contact Information</span>
                         <form id="contactForm">
-                            <div class="input-field">
-                                <i class="material-icons prefix">account_circle</i>
-                                <input type="text" id="name" name="name" required>
-                                <label for="name">Nama lengkap</label>
-                            </div>
-                            
-                            <div class="input-field">
-                                <i class="material-icons prefix">email</i>
-                                <input type="email" id="email" name="email" required>
-                                <label for="email">Email</label>
-                            </div>
-                            
-                            <div class="input-field">
-                                <i class="material-icons prefix">phone</i>
-                                <input type="tel" id="phone" name="phone">
-                                <label for="phone">No. Telepon</label>
-                            </div>
-                            
-                            <div class="input-field">
-                                <i class="material-icons prefix">home</i>
-                                <textarea id="address" name="address" class="materialize-textarea"></textarea>
-                                <label for="address">Alamat tempat tinggal sekarang</label>
-                            </div>
-                            
-                            <!-- Region selection dropdowns -->
-                            <div class="region-selectors">
-                                <div class="input-field">
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <i class="material-icons prefix">account_circle</i>
+                                    <input type="text" id="name" name="name" required>
+                                    <label for="name">Nama lengkap</label>
+                                </div>
+                                
+                                <div class="input-field col s12">
+                                    <i class="material-icons prefix">email</i>
+                                    <input type="email" id="email" name="email" required>
+                                    <label for="email">Email</label>
+                                </div>
+                                
+                                <div class="input-field col s12">
+                                    <i class="material-icons prefix">phone</i>
+                                    <input type="tel" id="phone" name="phone">
+                                    <label for="phone">No. Telepon</label>
+                                </div>
+                                
+                                <div class="input-field col s12">
+                                    <i class="material-icons prefix">home</i>
+                                    <textarea id="address" name="address" class="materialize-textarea"></textarea>
+                                    <label for="address">Alamat tempat tinggal sekarang</label>
+                                </div>
+                                
+                                <div class="input-field col s12">
                                     <i class="material-icons prefix">location_on</i>
                                     <select id="provinceDropdown" name="province" required>
                                         <option value="" disabled selected>Pilih Provinsi</option>
-                                        <!-- Options will be populated from location data -->
                                     </select>
                                     <label>Provinsi</label>
                                 </div>
                                 
-                                <div class="input-field">
+                                <div class="input-field col s12">
                                     <i class="material-icons prefix">location_city</i>
                                     <select id="cityDropdown" name="city" required disabled>
                                         <option value="" disabled selected>Pilih Kota/Kabupaten</option>
-                                        <!-- Options will be populated based on province selection -->
                                     </select>
                                     <label>Kota/Kabupaten</label>
                                 </div>
                                 
-                                <div class="input-field">
+                                <div class="input-field col s12">
                                     <i class="material-icons prefix">place</i>
                                     <select id="districtDropdown" name="district" required disabled>
                                         <option value="" disabled selected>Pilih Kecamatan</option>
-                                        <!-- Options will be populated based on city selection -->
                                     </select>
                                     <label>Kecamatan</label>
                                 </div>
                                 
-                                <div class="input-field">
+                                <div class="input-field col s12">
                                     <i class="material-icons prefix">apartment</i>
                                     <select id="subDistrictDropdown" name="subDistrict" required disabled>
                                         <option value="" disabled selected>Pilih Kelurahan</option>
-                                        <!-- Options will be populated based on district selection -->
                                     </select>
                                     <label>Kelurahan</label>
                                 </div>
                                 
-                                <div class="input-field">
+                                <div class="input-field col s12">
                                     <i class="material-icons prefix">markunread_mailbox</i>
                                     <input type="text" id="postalCode" name="postalCode" readonly>
                                     <label for="postalCode">Kode Pos</label>
                                 </div>
                             </div>
-                            
-                            <div class="center-align">
-                                <button type="submit" class="btn waves-effect waves-light">
-                                    Submit
-                                    <i class="material-icons right">send</i>
-                                </button>
-                            </div>
                         </form>
+                    </div>
+                </div>
+                
+                <!-- Separate card for submit button -->
+                <div class="card submit-card">
+                    <div class="card-content center-align">
+                        <button type="button" id="submitButton" class="btn waves-effect waves-light">
+                            Submit
+                            <i class="material-icons right">send</i>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -122,6 +119,6 @@
 
     <!-- Material Design JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    <script src="script.js"></script>
+    <script src="cascading-dropdowns.js"></script>
 </body>
 </html>
