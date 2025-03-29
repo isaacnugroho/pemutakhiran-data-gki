@@ -14,7 +14,6 @@ export interface FieldValues {
   birthPlace?: string;
   gender: string;
   phone: string;
-  email?: string;
   address: string;
   rtrw: string;
   province: string;

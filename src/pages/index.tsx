@@ -60,10 +60,6 @@ export default function Home() {
                         <input id="name" type="text" className="validate" />
                         <label htmlFor="name">Nama Lengkap*</label>
                       </div>
-                      <div className="input-field col s12 m6">
-                        <input id="email" type="email" className="validate" />
-                        <label htmlFor="email">Email</label>
-                      </div>
                     </div>
 
                     <div className="row">
@@ -71,6 +67,9 @@ export default function Home() {
                         <input id="phone" type="tel" className="validate" />
                         <label htmlFor="phone">Nomor Telepon*</label>
                       </div>
+                    </div>
+
+                    <div className="row">
                       <div className="input-field col s12 m6">
                         <input id="birthPlace" type="text" className="validate" />
                         <label htmlFor="birthPlace">Tempat Lahir*</label>
@@ -82,6 +81,9 @@ export default function Home() {
                         <input id="birthDate" type="text" className="datepicker validate" />
                         <label htmlFor="birthDate">Tanggal Lahir*</label>
                       </div>
+                    </div>
+
+                    <div className="row">
                       <div className="input-field col s12 m6">
                         <input id="bloodType" type="text" className="validate" />
                         <label htmlFor="bloodType">Golongan Darah</label>
@@ -89,20 +91,25 @@ export default function Home() {
                     </div>
 
                     <div className="row">
-                      <div className="col s12">
-                        <p>Jenis Kelamin*</p>
-                        <p>
-                          <label>
-                            <input name="gender" type="radio" value="Laki-laki" />
-                            <span>Laki-laki</span>
-                          </label>
-                        </p>
-                        <p>
-                          <label>
-                            <input name="gender" type="radio" value="Perempuan" />
-                            <span>Perempuan</span>
-                          </label>
-                        </p>
+                      <div className="input-field col s12 m6">
+                        <label id="gender-label" htmlFor="gender" className="active">Jenis Kelamin*</label>
+                        <div className="radio-container">
+                          <p>
+                            <label>
+                              <input id="gender-male" name="gender" type="radio" value="Laki-laki" />
+                              <span>Laki-laki</span>
+                            </label>
+                          </p>
+                          <p>
+                            <label>
+                              <input id="gender-female" name="gender" type="radio" value="Perempuan" />
+                              <span>Perempuan</span>
+                            </label>
+                          </p>
+                        </div>
+                      </div>
+                      <div className="input-field col s12 m6">
+                        {/* Empty space for alignment or can be used for another field */}
                       </div>
                     </div>
 
@@ -125,10 +132,6 @@ export default function Home() {
                         <textarea id="rtrw" className="materialize-textarea validate"></textarea>
                         <label htmlFor="rtrw">RT/RW*</label>
                       </div>
-                      <div className="input-field col s12 m6">
-                        <input id="postalCode" type="text" className="validate" readOnly />
-                        <label htmlFor="postalCode" className="active">Kode Pos</label>
-                      </div>
                     </div>
 
                     <div className="row">
@@ -137,6 +140,9 @@ export default function Home() {
                           <option value="" disabled selected>Pilih Provinsi</option>
                         </select>
                       </div>
+                    </div>
+
+                    <div className="row">
                       <div className="input-field col s12 m6">
                         <select id="cityDropdown" className="browser-default" disabled>
                           <option value="" disabled selected>Pilih Kota/Kabupaten</option>
@@ -150,10 +156,20 @@ export default function Home() {
                           <option value="" disabled selected>Pilih Kecamatan</option>
                         </select>
                       </div>
+                    </div>
+
+                    <div className="row">
                       <div className="input-field col s12 m6">
                         <select id="subDistrictDropdown" className="browser-default" disabled>
                           <option value="" disabled selected>Pilih Kelurahan</option>
                         </select>
+                      </div>
+                    </div>
+
+                    <div className="row">
+                      <div className="input-field col s12 m6">
+                        <input id="postalCode" type="text" className="validate" readOnly />
+                        <label htmlFor="postalCode" className="active">Kode Pos</label>
                       </div>
                     </div>
 

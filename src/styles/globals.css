@@ -182,6 +182,16 @@ textarea.materialize-textarea:focus:not([readonly])+label {
   background-color: rgba(0, 150, 136, 0.1);
 }
 
+/* Radio button styling */
+.input-field .radio-container {
+  margin-top: 10px;
+}
+
+.input-field label.active {
+  transform: translateY(-14px) scale(0.8);
+  transform-origin: 0 0;
+}
+
 /* Gender field styling */
 .gender-label {
   color: #9e9e9e;
@@ -194,7 +204,7 @@ textarea.materialize-textarea:focus:not([readonly])+label {
 
 /* Radio button container styling */
 .radio-container {
-  margin-left: 45px; /* Align with other input fields */
+  margin-left: 0; /* Align with other input fields */
   margin-bottom: 10px;
 }
 

@@ -421,7 +421,6 @@ export const handleFormSubmit = (): void => {
 
   // Get form values
   const name = (document.getElementById('name') as HTMLInputElement).value;
-  // const email = (document.getElementById('email') as HTMLInputElement).value;
   const phone = (document.getElementById('phone') as HTMLInputElement).value;
   const birthPlace = (document.getElementById('birthPlace') as HTMLInputElement).value;
   const birthDate = (document.getElementById('birthDate') as HTMLInputElement).value;
@@ -540,17 +539,6 @@ export const validateForm = (): boolean => {
     }
   }
 
-  // Validate email format if email field is not empty
-  if (isValid) {
-    const emailField = document.getElementById('email') as HTMLInputElement;
-    if (emailField && emailField.value && !isValidEmail(emailField.value)) {
-      if ((window as any).M && (window as any).M.toast) {
-        (window as any).M.toast({html: 'Please enter a valid email address', classes: 'rounded red'});
-      }
-      isValid = false;
-    }
-  }
-
   // Validate blood type format if blood type field is not empty
   if (isValid) {
     const bloodTypeField = document.getElementById('bloodType') as HTMLInputElement;
@@ -563,14 +551,6 @@ export const validateForm = (): boolean => {
   }
 
   return isValid;
-};
-
-/**
- * Validates email format
- */
-export const isValidEmail = (email: string): boolean => {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return emailRegex.test(email);
 };
 
 /**
@@ -610,32 +590,34 @@ export const initializeForm = (): void => {
   }
   
   // Initialize datepicker with custom options
-  const datepicker = document.querySelector('.datepicker');
-  if (datepicker && (window as any).M && (window as any).M.Datepicker) {
-    (window as any).M.Datepicker.init(datepicker, {
-      format: 'yyyy-mm-dd',
-      yearRange: 50,
-      showClearBtn: true,
-      i18n: {
-        cancel: 'Batal',
-        clear: 'Hapus',
-        done: 'OK',
-        months: [
-          'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
-          'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
-        ],
-        monthsShort: [
-          'Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun',
-          'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'
-        ],
-        weekdays: [
-          'Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'
-        ],
-        weekdaysShort: [
-          'Min', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'
-        ],
-        weekdaysAbbrev: ['M', 'S', 'S', 'R', 'K', 'J', 'S']
-      }
+  const datepickers = document.querySelectorAll('.datepicker');
+  if (datepickers.length > 0 && (window as any).M && (window as any).M.Datepicker) {
+    datepickers.forEach(datepicker => {
+      (window as any).M.Datepicker.init(datepicker, {
+        format: 'yyyy-mm-dd',
+        yearRange: 50,
+        showClearBtn: true,
+        i18n: {
+          cancel: 'Batal',
+          clear: 'Hapus',
+          done: 'OK',
+          months: [
+            'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+            'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+          ],
+          monthsShort: [
+            'Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun',
+            'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'
+          ],
+          weekdays: [
+            'Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'
+          ],
+          weekdaysShort: [
+            'Min', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'
+          ],
+          weekdaysAbbrev: ['M', 'S', 'S', 'R', 'K', 'J', 'S']
+        }
+      });
     });
   }
   
