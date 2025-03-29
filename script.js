@@ -1,4 +1,4 @@
-let FORM_ID = 'not_the_actual_form_id';
+let PREFILLED_FORM_ID = 'not_the_actual_PREFILLED_FORM_ID';
 
 // Function to load the location data from the external file
 async function loadLocationData() {
@@ -402,7 +402,7 @@ function handleFormSubmit() {
     const rtrw = document.getElementById('rtrw').value;
     
     // Example Google Form URL (you need to replace with your actual form ID and entry IDs)
-    const googleFormBaseUrl = 'https://docs.google.com/forms/d/e/' + FORM_ID + '/viewform';
+    const googleFormBaseUrl = 'https://docs.google.com/forms/d/e/' + PREFILLED_FORM_ID + '/viewform';
     
     // Define form field mappings to Google Form entry IDs
     const formFieldMappings = [
@@ -526,7 +526,7 @@ async function fetchAuthKey() {
     try {
       const response = await fetch('/api/getAuthKey'); // Fetch the key from API
       const data = await response.json();
-      FORM_ID = data.authKey; // Store the key in a variable
+      PREFILLED_FORM_ID = data.authKey; // Store the key in a variable
       console.log("Form id fetched"); // Use the key as needed
     } catch (error) {
       console.error("Error fetching auth key:", error);
