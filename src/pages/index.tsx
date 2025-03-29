@@ -59,6 +59,7 @@ export default function Home() {
                       <div className="input-field col s12">
                         <input id="name" type="text" className="validate" />
                         <label htmlFor="name">Nama Lengkap*</label>
+                        <span className="helper-text"></span>
                       </div>
                     </div>
 
@@ -66,13 +67,15 @@ export default function Home() {
                       <div className="input-field col s12">
                         <input id="phone" type="tel" className="validate" />
                         <label htmlFor="phone">Nomor Telepon*</label>
+                        <span className="helper-text"></span>
                       </div>
                     </div>
 
                     <div className="row">
                       <div className="input-field col s12">
                         <input id="birthPlace" type="text" className="validate" />
-                        <label htmlFor="birthPlace">Tempat Lahir*</label>
+                        <label htmlFor="birthPlace">Tempat Lahir</label>
+                        <span className="helper-text"></span>
                       </div>
                     </div>
 
@@ -88,6 +91,7 @@ export default function Home() {
                       <div className="input-field col s12">
                         <input id="bloodType" type="text" className="validate" />
                         <label htmlFor="bloodType">Golongan Darah</label>
+                        <span className="helper-text"></span>
                       </div>
                     </div>
 
@@ -108,9 +112,7 @@ export default function Home() {
                             </label>
                           </p>
                         </div>
-                      </div>
-                      <div className="input-field col s12">
-                        {/* Empty space for alignment or can be used for another field */}
+                        <span className="helper-text"></span>
                       </div>
                     </div>
 
@@ -125,13 +127,15 @@ export default function Home() {
                       <div className="input-field col s12">
                         <textarea id="address" className="materialize-textarea validate"></textarea>
                         <label htmlFor="address">Alamat Lengkap*</label>
+                        <span className="helper-text"></span>
                       </div>
                     </div>
 
                     <div className="row">
                       <div className="input-field col s12">
                         <textarea id="rtrw" className="materialize-textarea validate"></textarea>
-                        <label htmlFor="rtrw">RT/RW*</label>
+                        <label htmlFor="rtrw">RT/RW</label>
+                        <span className="helper-text"></span>
                       </div>
                     </div>
 
@@ -140,6 +144,7 @@ export default function Home() {
                         <select id="provinceDropdown" className="browser-default" defaultValue="">
                           <option value="" disabled>Pilih Provinsi</option>
                         </select>
+                        <span className="helper-text"></span>
                       </div>
                     </div>
 
@@ -148,6 +153,7 @@ export default function Home() {
                         <select id="cityDropdown" className="browser-default" disabled defaultValue="">
                           <option value="" disabled>Pilih Kota/Kabupaten</option>
                         </select>
+                        <span className="helper-text"></span>
                       </div>
                     </div>
 
@@ -156,6 +162,7 @@ export default function Home() {
                         <select id="districtDropdown" className="browser-default" disabled defaultValue="">
                           <option value="" disabled>Pilih Kecamatan</option>
                         </select>
+                        <span className="helper-text"></span>
                       </div>
                     </div>
 
@@ -164,6 +171,7 @@ export default function Home() {
                         <select id="subDistrictDropdown" className="browser-default" disabled defaultValue="">
                           <option value="" disabled>Pilih Kelurahan</option>
                         </select>
+                        <span className="helper-text"></span>
                       </div>
                     </div>
 
@@ -171,6 +179,7 @@ export default function Home() {
                       <div className="input-field col s12">
                         <input id="postalCode" type="text" className="validate" readOnly />
                         <label htmlFor="postalCode" className="active">Kode Pos</label>
+                        <span className="helper-text"></span>
                       </div>
                     </div>
 

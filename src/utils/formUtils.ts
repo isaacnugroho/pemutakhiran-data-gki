@@ -60,7 +60,7 @@ export const loadLocationData = async (): Promise<LocationData[]> => {
       const loadingText = document.getElementById('loadingText');
       if (loadingText) {
         loadingText.textContent = 'Failed to load data. Please refresh the page.';
-        loadingText.style.color = 'red';
+        (loadingText as HTMLElement).style.color = 'red';
       }
       
       // Show error toast if Materialize is available
@@ -104,7 +104,7 @@ export const processLocationData = async (locationData: LocationData[]): Promise
       const loadingText = document.getElementById('loadingText');
       if (loadingText) {
         loadingText.textContent = 'Ready';
-        loadingText.style.color = 'green';
+        (loadingText as HTMLElement).style.color = 'green';
       }
 
       // Hide loading indicator after a short delay
@@ -121,7 +121,7 @@ export const processLocationData = async (locationData: LocationData[]): Promise
       const loadingText = document.getElementById('loadingText');
       if (loadingText) {
         loadingText.textContent = 'Error processing data. Please refresh the page.';
-        loadingText.style.color = 'red';
+        (loadingText as HTMLElement).style.color = 'red';
       }
       
       // Show error toast if Materialize is available
@@ -410,12 +410,21 @@ export const handleFormSubmit = (): void => {
   
   // Show loading indicator
   const loadingIndicator = document.getElementById('loadingIndicator');
-  if (loadingIndicator) loadingIndicator.style.display = 'block';
+  if (loadingIndicator) (loadingIndicator as HTMLElement).style.display = 'block';
 
   // Validate form
   if (!validateForm()) {
     // Hide loading indicator if validation fails
-    if (loadingIndicator) loadingIndicator.style.display = 'none';
+    if (loadingIndicator) (loadingIndicator as HTMLElement).style.display = 'none';
+    
+    // Show general validation error message
+    if ((window as any).M && (window as any).M.toast) {
+      (window as any).M.toast({
+        html: 'Mohon periksa kembali data yang dimasukkan',
+        classes: 'rounded red',
+        displayLength: 4000
+      });
+    }
     return;
   }
 
@@ -493,7 +502,7 @@ export const handleFormSubmit = (): void => {
   setTimeout(function() {
     window.open(prefilledUrl, '_blank');
     // Hide loading indicator after redirect
-    if (loadingIndicator) loadingIndicator.style.display = 'none';
+    if (loadingIndicator) (loadingIndicator as HTMLElement).style.display = 'none';
   }, 1500);
 };
 
@@ -503,15 +512,19 @@ export const handleFormSubmit = (): void => {
 export const validateForm = (): boolean => {
   if (typeof document === 'undefined') return false;
   
+  // Clear previous validation errors
+  clearValidationErrors();
+  
   // Check required fields
   const requiredFields: RequiredField[] = [
-    { id: 'name', message: 'Please enter your name' },
-    { id: 'birthDate', message: 'Please enter your birth date' },
-    { id: 'address', message: 'Please enter your address' },
-    { id: 'provinceDropdown', message: 'Please select a province' },
-    { id: 'cityDropdown', message: 'Please select a city' },
-    { id: 'districtDropdown', message: 'Please select a district' },
-    { id: 'subDistrictDropdown', message: 'Please select a sub-district' }
+    { id: 'name', message: 'Nama lengkap harus diisi' },
+    { id: 'phone', message: 'Nomor telepon harus diisi' },
+    { id: 'birthDate', message: 'Tanggal lahir harus diisi' },
+    { id: 'address', message: 'Alamat lengkap harus diisi' },
+    { id: 'provinceDropdown', message: 'Provinsi harus dipilih' },
+    { id: 'cityDropdown', message: 'Kota/Kabupaten harus dipilih' },
+    { id: 'districtDropdown', message: 'Kecamatan harus dipilih' },
+    { id: 'subDistrictDropdown', message: 'Kelurahan harus dipilih' }
   ];
 
   let isValid = true;
@@ -520,37 +533,129 @@ export const validateForm = (): boolean => {
   for (const field of requiredFields) {
     const element = document.getElementById(field.id) as HTMLInputElement | HTMLSelectElement;
     if (!element || !element.value) {
-      if ((window as any).M && (window as any).M.toast) {
-        (window as any).M.toast({html: field.message, classes: 'rounded red'});
-      }
+      showFieldError(field.id, field.message);
       isValid = false;
-      break;
+    } else {
+      showFieldSuccess(field.id);
     }
   }
 
   // Check gender selection
-  if (isValid) {
-    const genderSelected = document.querySelector('input[name="gender"]:checked');
-    if (!genderSelected) {
-      if ((window as any).M && (window as any).M.toast) {
-        (window as any).M.toast({html: 'Please select your gender', classes: 'rounded red'});
-      }
-      isValid = false;
-    }
+  const genderSelected = document.querySelector('input[name="gender"]:checked');
+  if (!genderSelected) {
+    showFieldError('gender-label', 'Jenis kelamin harus dipilih');
+    isValid = false;
+  } else {
+    showFieldSuccess('gender-label');
   }
 
   // Validate blood type format if blood type field is not empty
-  if (isValid) {
-    const bloodTypeField = document.getElementById('bloodType') as HTMLInputElement;
-    if (bloodTypeField && bloodTypeField.value && !isValidBloodType(bloodTypeField.value)) {
-      if ((window as any).M && (window as any).M.toast) {
-        (window as any).M.toast({html: 'Please enter a valid blood type (A, B, AB, O, A+, A-, B+, B-, AB+, AB-, O+, O-)', classes: 'rounded red'});
-      }
-      isValid = false;
-    }
+  const bloodTypeField = document.getElementById('bloodType') as HTMLInputElement;
+  if (bloodTypeField && bloodTypeField.value && !isValidBloodType(bloodTypeField.value)) {
+    showFieldError('bloodType', 'Golongan darah tidak valid (A, B, AB, O, A+, A-, B+, B-, AB+, AB-, O+, O-)');
+    isValid = false;
+  } else if (bloodTypeField && bloodTypeField.value) {
+    showFieldSuccess('bloodType');
   }
 
   return isValid;
+};
+
+/**
+ * Shows an error message for a specific field
+ */
+const showFieldError = (fieldId: string, message: string): void => {
+  const element = document.getElementById(fieldId);
+  if (!element) return;
+  
+  // Add invalid class to the input
+  element.classList.add('invalid');
+  element.classList.remove('valid');
+  
+  // For select elements, we need to handle differently
+  if (element.tagName === 'SELECT') {
+    const parentElement = element.parentElement;
+    if (parentElement) {
+      // Find or create helper text element in the parent
+      let helperElement = parentElement.querySelector('.helper-text');
+      
+      if (!helperElement) {
+        // Create helper text if it doesn't exist
+        helperElement = document.createElement('span');
+        helperElement.className = 'helper-text';
+        parentElement.appendChild(helperElement);
+      }
+      
+      // Set error message
+      helperElement.textContent = message;
+      (helperElement as HTMLElement).style.color = '#F44336';
+    }
+  } else {
+    // For regular inputs
+    // Find existing helper text or create one
+    const parentElement = element.parentElement;
+    if (!parentElement) return;
+    
+    let helperElement = parentElement.querySelector('.helper-text');
+    
+    if (!helperElement) {
+      // Create helper text if it doesn't exist
+      helperElement = document.createElement('span');
+      helperElement.className = 'helper-text';
+      parentElement.appendChild(helperElement);
+    }
+    
+    // Set error message
+    helperElement.textContent = message;
+    (helperElement as HTMLElement).style.color = '#F44336';
+  }
+  
+  // Also show toast for accessibility
+  if ((window as any).M && (window as any).M.toast) {
+    (window as any).M.toast({html: message, classes: 'rounded red'});
+  }
+};
+
+/**
+ * Shows success state for a specific field
+ */
+const showFieldSuccess = (fieldId: string): void => {
+  const element = document.getElementById(fieldId);
+  if (!element) return;
+  
+  // Add valid class to the input
+  element.classList.add('valid');
+  element.classList.remove('invalid');
+  
+  // Find helper text element if it exists
+  const parentElement = element.parentElement;
+  if (!parentElement) return;
+  
+  const helperElement = parentElement.querySelector('.helper-text');
+  
+  // Clear error message if helper exists
+  if (helperElement) {
+    helperElement.textContent = '';
+    (helperElement as HTMLElement).style.color = '';
+  }
+};
+
+/**
+ * Clears all validation errors
+ */
+const clearValidationErrors = (): void => {
+  // Clear all invalid classes
+  const invalidElements = document.querySelectorAll('.invalid');
+  invalidElements.forEach(element => {
+    element.classList.remove('invalid');
+  });
+  
+  // Clear all helper text error messages
+  const helperElements = document.querySelectorAll('.helper-text');
+  helperElements.forEach(element => {
+    element.textContent = '';
+    (element as HTMLElement).style.color = '';
+  });
 };
 
 /**
