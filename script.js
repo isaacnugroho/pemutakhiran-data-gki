@@ -1,4 +1,4 @@
-const FORM_ID = process.env.FORM_ID;
+let FORM_ID = 'not_the_actual_form_id';
 
 // Function to load the location data from the external file
 async function loadLocationData() {
@@ -522,7 +522,20 @@ function isValidBloodType(bloodType) {
     return validBloodTypes.includes(bloodType.trim().toUpperCase());
 }
 
-document.addEventListener('DOMContentLoaded', function() {
+async function fetchAuthKey() {
+    try {
+      const response = await fetch('/api/getAuthKey'); // Fetch the key from API
+      const data = await response.json();
+      FORM_ID = data.authKey; // Store the key in a variable
+      console.log("Form id fetched"); // Use the key as needed
+    } catch (error) {
+      console.error("Error fetching auth key:", error);
+    }
+  }
+  document.addEventListener('DOMContentLoaded', function() {
+  
+// Call the function when the page loads
+    fetchAuthKey();
     // Initialize Material components
     M.AutoInit();
     
