@@ -362,19 +362,34 @@ function setupCascadingDropdowns(rows) {
 
 // Function to handle form submission
 function handleFormSubmit() {
-    // Trigger form validation
+    // Show loading indicator
+    const loadingIndicator = document.getElementById('loadingIndicator');
+    loadingIndicator.style.display = 'block';
+    
+    // Validate form
     if (!validateForm()) {
+        // Hide loading indicator if validation fails
+        loadingIndicator.style.display = 'none';
         return;
     }
-    
-    // Show loading indicator
-    loadingIndicator.style.display = 'block';
-    document.getElementById('loadingText').textContent = 'Submitting your information...';
     
     // Get form values
     const name = document.getElementById('name').value;
     const email = document.getElementById('email').value;
     const phone = document.getElementById('phone').value;
+    const birthPlace = document.getElementById('birthPlace').value;
+    const birthDate = document.getElementById('birthDate').value;
+    
+    // Get gender value
+    let gender = '';
+    const genderRadios = document.querySelectorAll('input[name="gender"]');
+    for (const radio of genderRadios) {
+        if (radio.checked) {
+            gender = radio.value;
+            break;
+        }
+    }
+    
     const province = document.getElementById('provinceDropdown').value;
     const city = document.getElementById('cityDropdown').value;
     const district = document.getElementById('districtDropdown').value;
@@ -394,7 +409,7 @@ function handleFormSubmit() {
     
     // Build the URL with prefilled values
     // Note: You need to replace these entry IDs with the actual IDs from your Google Form
-    const prefilledUrl = `${googleFormBaseUrl}?usp=pp_url&entry.123456=${encodeURIComponent(name)}&entry.234567=${encodeURIComponent(email)}&entry.345678=${encodeURIComponent(phone)}&entry.456789=${encodeURIComponent(fullAddress)}&entry.567890=${encodeURIComponent(province)}&entry.678901=${encodeURIComponent(city)}&entry.789012=${encodeURIComponent(district)}&entry.890123=${encodeURIComponent(subDistrict)}&entry.901234=${encodeURIComponent(postalCode)}`;
+    const prefilledUrl = `${googleFormBaseUrl}?usp=pp_url&entry.123456=${encodeURIComponent(name)}&entry.234567=${encodeURIComponent(email)}&entry.345678=${encodeURIComponent(phone)}&entry.456789=${encodeURIComponent(fullAddress)}&entry.567890=${encodeURIComponent(province)}&entry.678901=${encodeURIComponent(city)}&entry.789012=${encodeURIComponent(district)}&entry.890123=${encodeURIComponent(subDistrict)}&entry.901234=${encodeURIComponent(postalCode)}&entry.012345=${encodeURIComponent(birthPlace)}&entry.123456=${encodeURIComponent(birthDate)}&entry.234567=${encodeURIComponent(gender)}`;
     
     // Show toast notification
     M.toast({html: 'Submitting form...', classes: 'rounded'});
@@ -411,29 +426,45 @@ function handleFormSubmit() {
 function validateForm() {
     // Check required fields
     const requiredFields = [
-        { id: 'name', label: 'Name' },
-        { id: 'email', label: 'Email' },
-        { id: 'provinceDropdown', label: 'Province' },
-        { id: 'cityDropdown', label: 'City' },
-        { id: 'districtDropdown', label: 'District' },
-        { id: 'subDistrictDropdown', label: 'Sub-district' }
+        { id: 'name', message: 'Please enter your name' },
+        { id: 'email', message: 'Please enter your email' },
+        { id: 'birthDate', message: 'Please enter your birth date' },
+        { id: 'provinceDropdown', message: 'Please select a province' },
+        { id: 'cityDropdown', message: 'Please select a city' },
+        { id: 'districtDropdown', message: 'Please select a district' },
+        { id: 'subDistrictDropdown', message: 'Please select a sub-district' }
     ];
     
     let isValid = true;
     
-    requiredFields.forEach(field => {
+    // Check each required field
+    for (const field of requiredFields) {
         const element = document.getElementById(field.id);
         if (!element.value) {
-            M.toast({html: `${field.label} is required`, classes: 'rounded red'});
+            M.toast({html: field.message, classes: 'rounded red'});
+            element.focus();
+            isValid = false;
+            break;
+        }
+    }
+    
+    // Check gender selection
+    if (isValid) {
+        const genderSelected = document.querySelector('input[name="gender"]:checked');
+        if (!genderSelected) {
+            M.toast({html: 'Please select your gender', classes: 'rounded red'});
             isValid = false;
         }
-    });
+    }
     
-    // Validate email format if provided
-    const email = document.getElementById('email').value;
-    if (email && !isValidEmail(email)) {
-        M.toast({html: 'Please enter a valid email address', classes: 'rounded red'});
-        isValid = false;
+    // Validate email format if email field is not empty
+    if (isValid) {
+        const emailField = document.getElementById('email');
+        if (emailField.value && !isValidEmail(emailField.value)) {
+            M.toast({html: 'Please enter a valid email address', classes: 'rounded red'});
+            emailField.focus();
+            isValid = false;
+        }
     }
     
     return isValid;
@@ -448,6 +479,26 @@ function isValidEmail(email) {
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize Material components
     M.AutoInit();
+    
+    // Initialize datepicker with configuration
+    const datepicker = document.querySelector('.datepicker');
+    if (datepicker) {
+        M.Datepicker.init(datepicker, {
+            format: 'yyyy-mm-dd',
+            yearRange: 50, // Show 50 years in the dropdown
+            showClearBtn: true,
+            i18n: {
+                cancel: 'Batal',
+                clear: 'Hapus',
+                done: 'OK',
+                months: ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'],
+                monthsShort: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'],
+                weekdays: ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'],
+                weekdaysShort: ['Min', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'],
+                weekdaysAbbrev: ['M', 'S', 'S', 'R', 'K', 'J', 'S']
+            }
+        });
+    }
     
     // Specifically initialize select dropdowns with custom options
     const selects = document.querySelectorAll('select');

@@ -200,6 +200,24 @@ input:focus + label, textarea:focus + label {
     padding-top: 10px;
 }
 
+/* Gender field styling */
+.gender-label {
+    color: #9e9e9e;
+    font-size: 1rem;
+    margin-bottom: 10px;
+}
+
+.input-field p {
+    margin-bottom: 10px;
+    margin-left: 35px;
+}
+
+[type="radio"]:checked+span:after, 
+[type="radio"].with-gap:checked+span:after {
+    background-color: #26a69a;
+    border: 2px solid #26a69a;
+}
+
 @media only screen and (max-width: 992px) {
     .container {
         width: 95% !important;
