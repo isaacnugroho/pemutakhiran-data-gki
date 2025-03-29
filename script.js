@@ -383,7 +383,7 @@ function handleFormSubmit() {
     
     // Get form values
     const name = document.getElementById('name').value;
-    const email = document.getElementById('email').value;
+    // const email = document.getElementById('email').value;
     const phone = document.getElementById('phone').value;
     const birthPlace = document.getElementById('birthPlace').value;
     const birthDate = document.getElementById('birthDate').value;
