@@ -2,7 +2,7 @@ let FORM_ID;
 if (typeof process !== 'undefined' && process.env) {
     FORM_ID = process.env.FORM_ID;
 } else {
-    FORM_ID = '012394';
+    FORM_ID = 'dQyAAAThisisnottheformidAAAZAlv6Fd7B2ktnj8_LCQB2hbt7wM';
 }
 
 // Function to load the location data from the external file
@@ -44,7 +44,7 @@ async function loadLocationData() {
         // Create the array by evaluating the extracted content
         const locationDataString = `[${arrayMatch[1]}]`;
         updateProgressIndicator('Preparing data...', 70);
-        const locationData = eval(locationDataString); // Note: eval is used for simplicity, consider safer alternatives in production
+        const locationData = JSON.parse(locationDataString); // Use JSON.parse instead of eval
         
         return await processLocationData(locationData);
     } catch (error) {
@@ -404,20 +404,47 @@ function handleFormSubmit() {
     const subDistrict = document.getElementById('subDistrictDropdown').value;
     const postalCode = document.getElementById('postalCode').value;
     const address = document.getElementById('address').value;
-    
-    // Format the full address with the selected regions
-    const fullAddress = `${address}, ${subDistrict}, ${district}, ${city}, ${province} ${postalCode}`;
-    
-    // Replace this URL with your actual Google Form URL
-    // This is an example structure - you'll need to replace with your actual Google Form ID and field entry IDs
-    // Format: https://docs.google.com/forms/d/e/[YOUR_FORM_ID]/viewform?usp=pp_url&entry.[FIELD_ID]=[VALUE]
+    const rtrw = document.getElementById('rtrw').value;
     
     // Example Google Form URL (you need to replace with your actual form ID and entry IDs)
     const googleFormBaseUrl = 'https://docs.google.com/forms/d/e/' + FORM_ID + '/viewform';
     
-    // Build the URL with prefilled values
-    // Note: You need to replace these entry IDs with the actual IDs from your Google Form
-    const prefilledUrl = `${googleFormBaseUrl}?usp=pp_url&entry.123456=${encodeURIComponent(name)}&entry.234567=${encodeURIComponent(email)}&entry.345678=${encodeURIComponent(phone)}&entry.456789=${encodeURIComponent(fullAddress)}&entry.567890=${encodeURIComponent(province)}&entry.678901=${encodeURIComponent(city)}&entry.789012=${encodeURIComponent(district)}&entry.890123=${encodeURIComponent(subDistrict)}&entry.901234=${encodeURIComponent(postalCode)}&entry.012345=${encodeURIComponent(birthPlace)}&entry.123456=${encodeURIComponent(birthDate)}&entry.234567=${encodeURIComponent(gender)}`;
+    // Define form field mappings to Google Form entry IDs
+    const formFieldMappings = [
+        { field: 'name', entryId: '1552198038' },
+        { field: 'birthDate', entryId: '946724977' },
+        { field: 'gender', entryId: '157174969' },
+        { field: 'phone', entryId: '932581507' },
+        { field: 'address', entryId: '670185927' },
+        { field: 'rtrw', entryId: '1226075221' },
+        { field: 'province', entryId: '1471260286' },
+        { field: 'city', entryId: '198554559' },
+        { field: 'district', entryId: '347596421' },
+        { field: 'subDistrict', entryId: '687992146' },
+        { field: 'postalCode', entryId: '56586160' }
+    ];
+    
+    // Create a mapping of field names to their values
+    const fieldValues = {
+        name: name,
+        birthDate: birthDate,
+        gender: gender,
+        phone: phone,
+        address: address,
+        rtrw: rtrw,
+        province: province,
+        city: city,
+        district: district,
+        subDistrict: subDistrict,
+        postalCode: postalCode
+    };
+    
+    // Build the URL with prefilled values using the mappings
+    let prefilledUrl = `${googleFormBaseUrl}?usp=pp_url`;
+    formFieldMappings.forEach(mapping => {
+        const value = fieldValues[mapping.field];
+        prefilledUrl += `&entry.${mapping.entryId}=${encodeURIComponent(value || '')}`;
+    });
     
     // Show toast notification
     M.toast({html: 'Submitting form...', classes: 'rounded'});
@@ -435,8 +462,8 @@ function validateForm() {
     // Check required fields
     const requiredFields = [
         { id: 'name', message: 'Please enter your name' },
-        { id: 'email', message: 'Please enter your email' },
         { id: 'birthDate', message: 'Please enter your birth date' },
+        { id: 'address', message: 'Please enter your address' },
         { id: 'provinceDropdown', message: 'Please select a province' },
         { id: 'cityDropdown', message: 'Please select a city' },
         { id: 'districtDropdown', message: 'Please select a district' },
@@ -475,6 +502,16 @@ function validateForm() {
         }
     }
     
+    // Validate blood type format if blood type field is not empty
+    if (isValid) {
+        const bloodTypeField = document.getElementById('bloodType');
+        if (bloodTypeField.value && !isValidBloodType(bloodTypeField.value)) {
+            M.toast({html: 'Blood type must be A, B, AB, or O', classes: 'rounded red'});
+            bloodTypeField.focus();
+            isValid = false;
+        }
+    }
+    
     return isValid;
 }
 
@@ -484,48 +521,68 @@ function isValidEmail(email) {
     return emailRegex.test(email);
 }
 
+// Function to validate blood type format
+function isValidBloodType(bloodType) {
+    const validBloodTypes = ['A', 'B', 'AB', 'O'];
+    return validBloodTypes.includes(bloodType.trim().toUpperCase());
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize Material components
     M.AutoInit();
     
-    // Initialize datepicker with configuration
+    // Setup datepicker
     const datepicker = document.querySelector('.datepicker');
-    if (datepicker) {
-        M.Datepicker.init(datepicker, {
-            format: 'yyyy-mm-dd',
-            yearRange: 50, // Show 50 years in the dropdown
-            showClearBtn: true,
-            i18n: {
-                cancel: 'Batal',
-                clear: 'Hapus',
-                done: 'OK',
-                months: ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'],
-                monthsShort: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'],
-                weekdays: ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'],
-                weekdaysShort: ['Min', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'],
-                weekdaysAbbrev: ['M', 'S', 'S', 'R', 'K', 'J', 'S']
+    M.Datepicker.init(datepicker, {
+        format: 'yyyy-mm-dd',
+        defaultDate: new Date(1990, 0, 1),
+        setDefaultDate: true,
+        yearRange: [1920, new Date().getFullYear()],
+        i18n: {
+            months: ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'],
+            monthsShort: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'],
+            weekdays: ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'],
+            weekdaysShort: ['Min', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'],
+            weekdaysAbbrev: ['M', 'S', 'S', 'R', 'K', 'J', 'S'],
+            cancel: 'Batal',
+            clear: 'Hapus',
+            done: 'OK'
+        }
+    });
+    
+    // Add event listener for blood type validation
+    const bloodTypeField = document.getElementById('bloodType');
+    if (bloodTypeField) {
+        // Convert to uppercase on input
+        bloodTypeField.addEventListener('input', function() {
+            this.value = this.value.toUpperCase();
+        });
+        
+        // Validate on blur
+        bloodTypeField.addEventListener('blur', function() {
+            const value = this.value.trim();
+            if (value && !isValidBloodType(value)) {
+                this.classList.add('invalid');
+            } else {
+                this.classList.remove('invalid');
+                this.classList.add('valid');
             }
         });
     }
     
-    // Specifically initialize select dropdowns with custom options
-    const selects = document.querySelectorAll('select');
-    M.FormSelect.init(selects, {
-        dropdownOptions: {
-            coverTrigger: false,
-            constrainWidth: false
-        }
-    });
-
-    // Initialize textarea specifically for address
-    M.textareaAutoResize(document.getElementById('address'));
-    
     // Load location data
-    loadLocationData();
+    loadLocationData().then(() => {
+        // Hide loading indicator when data is loaded
+        document.getElementById('loadingIndicator').style.display = 'none';
+        
+        // Setup cascading dropdowns
+        setupCascadingDropdowns(window.locationData);
+    }).catch(error => {
+        console.error('Error in main flow:', error);
+    });
     
-    const form = document.getElementById('contactForm');
+    // Get the submit button
     const submitButton = document.getElementById('submitButton');
-    const loadingIndicator = document.getElementById('loadingIndicator');
     
     // Add click event listener to the submit button
     submitButton.addEventListener('click', handleFormSubmit);    

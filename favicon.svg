@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="32px" height="32px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <title>Form Data Favicon</title>
+  <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+    <rect fill="#009688" x="0" y="0" width="32" height="32" rx="4"></rect>
+    <path d="M6,8 L26,8 C27.1045695,8 28,8.8954305 28,10 L28,10 C28,11.1045695 27.1045695,12 26,12 L6,12 C4.8954305,12 4,11.1045695 4,10 L4,10 C4,8.8954305 4.8954305,8 6,8 Z" fill="#FFFFFF"></path>
+    <path d="M6,14 L20,14 C21.1045695,14 22,14.8954305 22,16 L22,16 C22,17.1045695 21.1045695,18 20,18 L6,18 C4.8954305,18 4,17.1045695 4,16 L4,16 C4,14.8954305 4.8954305,14 6,14 Z" fill="#FFFFFF"></path>
+    <path d="M6,20 L16,20 C17.1045695,20 18,20.8954305 18,22 L18,22 C18,23.1045695 17.1045695,24 16,24 L6,24 C4.8954305,24 4,23.1045695 4,22 L4,22 C4,20.8954305 4.8954305,20 6,20 Z" fill="#FFFFFF"></path>
+    <circle fill="#FFFFFF" cx="24" cy="22" r="4"></circle>
+  </g>
+</svg>
