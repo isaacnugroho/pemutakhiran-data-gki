@@ -1,9 +1,4 @@
-let FORM_ID;
-if (typeof process !== 'undefined' && process.env) {
-    FORM_ID = process.env.FORM_ID;
-} else {
-    FORM_ID = 'dQyAAAThisisnottheformidAAAZAlv6Fd7B2ktnj8_LCQB2hbt7wM';
-}
+const FORM_ID = process.env.FORM_ID;
 
 // Function to load the location data from the external file
 async function loadLocationData() {
