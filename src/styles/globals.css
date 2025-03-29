@@ -1,0 +1,295 @@
+/* Base styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Roboto', sans-serif;
+}
+
+body {
+  background-color: #f5f5f5;
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+main {
+  flex: 1 0 auto;
+  padding: 20px 0;
+}
+
+.container {
+  width: 95% !important;
+  max-width: 1200px !important;
+}
+
+/* Card styles */
+.card {
+  margin: 2rem 0;
+  border-radius: 4px;
+  width: 100%;
+}
+
+.card.z-depth-2 {
+  box-shadow: 0 4px 5px 0 rgba(0,0,0,0.14), 0 1px 10px 0 rgba(0,0,0,0.12), 0 2px 4px -1px rgba(0,0,0,0.3);
+}
+
+.card-content {
+  padding: 24px;
+  max-height: none;
+  overflow-y: visible;
+}
+
+.card-title {
+  font-weight: 500 !important;
+  margin-bottom: 30px !important;
+  color: #26a69a !important;
+}
+
+.card-action {
+  border-top: 1px solid rgba(0,0,0,0.1);
+  padding: 16px 24px;
+}
+
+h6.section-title {
+  font-weight: 500;
+  margin: 24px 0 8px 0;
+}
+
+.divider {
+  margin-bottom: 16px;
+}
+
+.input-field {
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.input-field label {
+  color: #26a69a;
+}
+
+.input-field input[type=text]:focus + label,
+.input-field input[type=email]:focus + label,
+.input-field input[type=tel]:focus + label,
+.input-field textarea:focus + label {
+  color: #26a69a !important;
+}
+
+.input-field input[type=text]:focus,
+.input-field input[type=email]:focus,
+.input-field input[type=tel]:focus,
+.input-field textarea:focus {
+  border-bottom: 1px solid #26a69a !important;
+  box-shadow: 0 1px 0 0 #26a69a !important;
+}
+
+.input-field .prefix {
+  color: #26a69a;
+}
+
+.input-field .prefix.active {
+  color: #26a69a;
+}
+
+input:not([type]), 
+input[type=text]:not(.browser-default), 
+input[type=password]:not(.browser-default), 
+input[type=email]:not(.browser-default), 
+input[type=url]:not(.browser-default), 
+input[type=time]:not(.browser-default), 
+input[type=date]:not(.browser-default), 
+input[type=datetime]:not(.browser-default), 
+input[type=datetime-local]:not(.browser-default), 
+input[type=tel]:not(.browser-default), 
+input[type=number]:not(.browser-default), 
+input[type=search]:not(.browser-default), 
+textarea.materialize-textarea {
+  border-bottom: 1px solid #9e9e9e;
+  transition: all .3s;
+}
+
+input:not([type]):focus:not([readonly]), 
+input[type=text]:not(.browser-default):focus:not([readonly]), 
+input[type=password]:not(.browser-default):focus:not([readonly]), 
+input[type=email]:not(.browser-default):focus:not([readonly]), 
+input[type=url]:not(.browser-default):focus:not([readonly]), 
+input[type=time]:not(.browser-default):focus:not([readonly]), 
+input[type=date]:not(.browser-default):focus:not([readonly]), 
+input[type=datetime]:not(.browser-default):focus:not([readonly]), 
+input[type=datetime-local]:not(.browser-default):focus:not([readonly]), 
+input[type=tel]:not(.browser-default):focus:not([readonly]), 
+input[type=number]:not(.browser-default):focus:not([readonly]), 
+input[type=search]:not(.browser-default):focus:not([readonly]), 
+textarea.materialize-textarea:focus:not([readonly]) {
+  border-bottom: 2px solid #26a69a !important;
+  box-shadow: 0 1px 0 0 #26a69a !important;
+}
+
+input:not([type]):focus:not([readonly])+label, 
+input[type=text]:not(.browser-default):focus:not([readonly])+label, 
+input[type=password]:not(.browser-default):focus:not([readonly])+label, 
+input[type=email]:not(.browser-default):focus:not([readonly])+label, 
+input[type=url]:not(.browser-default):focus:not([readonly])+label, 
+input[type=time]:not(.browser-default):focus:not([readonly])+label, 
+input[type=date]:not(.browser-default):focus:not([readonly])+label, 
+input[type=datetime]:not(.browser-default):focus:not([readonly])+label, 
+input[type=datetime-local]:not(.browser-default):focus:not([readonly])+label, 
+input[type=tel]:not(.browser-default):focus:not([readonly])+label, 
+input[type=number]:not(.browser-default):focus:not([readonly])+label, 
+input[type=search]:not(.browser-default):focus:not([readonly])+label, 
+textarea.materialize-textarea:focus:not([readonly])+label {
+  color: #26a69a !important;
+}
+
+.helper-text {
+  min-height: 18px;
+}
+
+/* Progress indicator styling */
+.progress-container {
+  padding: 16px;
+  margin: 16px 0;
+  border-radius: 4px;
+  background-color: white;
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2);
+}
+
+#loadingIndicator {
+  margin: 20px 0;
+}
+
+.loading-text {
+  margin-top: 10px;
+  color: #26a69a;
+  font-weight: 500;
+}
+
+.spinner-teal-only {
+  border-color: #26a69a;
+}
+
+/* Dropdown styling */
+.select-wrapper input.select-dropdown:focus {
+  border-bottom: 1px solid #26a69a !important;
+}
+
+.dropdown-content li > a, .dropdown-content li > span {
+  color: #26a69a !important;
+}
+
+.dropdown-content li.selected > span {
+  background-color: rgba(0, 150, 136, 0.1);
+}
+
+/* Gender field styling */
+.gender-label {
+  color: #9e9e9e;
+  font-size: 1rem;
+  margin-bottom: 10px;
+  margin-left: 45px; /* Add left margin to align with other input labels */
+  display: block; /* Ensure it's on its own line */
+  position: relative; /* Add positioning context */
+}
+
+/* Radio button container styling */
+.radio-container {
+  margin-left: 45px; /* Align with other input fields */
+  margin-bottom: 10px;
+}
+
+.input-field p {
+  margin-bottom: 10px;
+  margin-left: 35px;
+}
+
+[type="radio"]:checked+span:after, 
+[type="radio"].with-gap:checked+span:after {
+  background-color: #26a69a;
+  border: 2px solid #26a69a;
+}
+
+[type="radio"]:checked+span:after,
+[type="radio"].with-gap:checked+span:before,
+[type="radio"].with-gap:checked+span:after {
+  border: 2px solid #26a69a;
+}
+
+/* Button styling */
+.btn, .btn-large {
+  background-color: #26a69a !important;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: background-color 0.3s;
+  margin-top: 20px;
+}
+
+.btn:hover, .btn-large:hover {
+  background-color: #2bbbad !important;
+}
+
+/* Mandatory field indicator */
+.mandatory-indicator {
+  color: #f44336;
+  margin-left: 2px;
+}
+
+.mandatory-note {
+  font-size: 0.9rem;
+  color: #757575;
+  margin-top: 5px;
+  margin-bottom: 15px;
+}
+
+/* Toast styling */
+.toast {
+  background-color: #26a69a;
+  border-radius: 24px;
+  padding: 10px 25px;
+}
+
+/* Footer styling */
+.page-footer {
+  background-color: #26a69a;
+  margin-top: 40px;
+}
+
+/* Loading indicator styles */
+#loadingText {
+  margin-top: 10px;
+  font-weight: 500;
+}
+
+/* Section styles */
+h5 {
+  color: #26a69a;
+  margin: 30px 0 20px 0;
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 10px;
+}
+
+/* Responsive adjustments */
+@media only screen and (max-width: 992px) {
+  .container {
+    width: 90% !important;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .container {
+    width: 95% !important;
+  }
+  
+  .card-content {
+    padding: 20px 15px !important;
+  }
+  
+  .card-action {
+    padding: 12px 16px;
+  }
+  
+  .btn-large {
+    height: 44px;
+    line-height: 44px;
+  }
+}
