@@ -177,7 +177,7 @@ export default function Home() {
 
                     <div className="row">
                       <div className="input-field col s12">
-                        <input id="postalCode" type="text" className="validate" readOnly />
+                        <input id="postalCode" type="text" readOnly />
                         <label htmlFor="postalCode" className="active">Kode Pos</label>
                         <span className="helper-text"></span>
                       </div>
@@ -185,10 +185,37 @@ export default function Home() {
 
                     <div className="row">
                       <div className="col s12 center-align">
-                        <button id="submitButton" type="button" className="btn waves-effect waves-light">
+                        <button 
+                          id="submitButton" 
+                          type="button" 
+                          className="btn waves-effect waves-light"
+                          onClick={() => {
+                            console.log('Submit button clicked');
+                            if (typeof window !== 'undefined') {
+                              const { handleFormSubmit } = require('../utils/formUtils');
+                              handleFormSubmit();
+                            }
+                          }}
+                        >
                           Submit
                           <i className="material-icons right">send</i>
                         </button>
+                        <div id="submitProgress" className="progress-indicator" style={{ display: 'none', marginTop: '10px' }}>
+                          <div className="preloader-wrapper small active">
+                            <div className="spinner-layer spinner-blue-only">
+                              <div className="circle-clipper left">
+                                <div className="circle"></div>
+                              </div>
+                              <div className="gap-patch">
+                                <div className="circle"></div>
+                              </div>
+                              <div className="circle-clipper right">
+                                <div className="circle"></div>
+                              </div>
+                            </div>
+                          </div>
+                          <p id="submitProgressText">Memproses...</p>
+                        </div>
                       </div>
                     </div>
                   </form>

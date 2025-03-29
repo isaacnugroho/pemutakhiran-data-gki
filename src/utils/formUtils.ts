@@ -403,19 +403,61 @@ export const setupCascadingDropdowns = async (locations: LocationData[]): Promis
 };
 
 /**
+ * Updates the submit progress indicator with a message
+ */
+export const updateSubmitProgress = (message: string): void => {
+  if (typeof document === 'undefined') return;
+  
+  // Update progress text
+  const progressText = document.getElementById('submitProgressText');
+  if (progressText) {
+    progressText.textContent = message;
+  }
+  
+  // Show progress indicator if not already visible
+  const progressIndicator = document.getElementById('submitProgress');
+  if (progressIndicator) {
+    (progressIndicator as HTMLElement).style.display = 'block';
+  }
+  
+  // Log to console
+  console.log(`Submit Progress: ${message}`);
+};
+
+/**
  * Handles form submission
  */
 export const handleFormSubmit = (): void => {
+  console.log('handleFormSubmit');
   if (typeof document === 'undefined') return;
   
   // Show loading indicator
   const loadingIndicator = document.getElementById('loadingIndicator');
   if (loadingIndicator) (loadingIndicator as HTMLElement).style.display = 'block';
+  
+  // Show submit progress indicator
+  const submitProgress = document.getElementById('submitProgress');
+  if (submitProgress) (submitProgress as HTMLElement).style.display = 'block';
+  
+  // Log start of submission
+  console.log('Starting form submission process');
+  updateSubmitProgress('Validasi data...');
 
   // Validate form
   if (!validateForm()) {
-    // Hide loading indicator if validation fails
+    // Hide loading indicators if validation fails
     if (loadingIndicator) (loadingIndicator as HTMLElement).style.display = 'none';
+    if (submitProgress) (submitProgress as HTMLElement).style.display = 'none';
+    
+    // Log validation failure
+    console.error('Form validation failed');
+    
+    // Ensure postal code field is never marked as invalid
+    const postalCodeField = document.getElementById('postalCode');
+    if (postalCodeField) {
+      postalCodeField.classList.remove('invalid');
+      postalCodeField.classList.remove('valid');
+    }
     
     // Show general validation error message
     if ((window as any).M && (window as any).M.toast) {
@@ -428,81 +470,100 @@ export const handleFormSubmit = (): void => {
     return;
   }
 
+  // Update progress
+  updateSubmitProgress('Mengumpulkan data...');
+  console.log('Form validation successful, collecting form data');
+
   // Get form values
   const name = (document.getElementById('name') as HTMLInputElement).value;
   const phone = (document.getElementById('phone') as HTMLInputElement).value;
   const birthPlace = (document.getElementById('birthPlace') as HTMLInputElement).value;
   const birthDate = (document.getElementById('birthDate') as HTMLInputElement).value;
 
+  // Update progress
+  updateSubmitProgress('Memproses jenis kelamin...');
+  console.log('Processing gender selection');
+
   // Get gender value
   let gender = '';
   const genderRadios = document.querySelectorAll('input[name="gender"]') as NodeListOf<HTMLInputElement>;
   const genderRadiosArray = Array.from(genderRadios);
-  for (const radio of genderRadiosArray) {
-    if (radio.checked) {
-      gender = radio.value;
-      break;
-    }
+  const selectedGender = genderRadiosArray.find(radio => radio.checked);
+  if (selectedGender) {
+    gender = selectedGender.value;
   }
 
+  // Update progress
+  updateSubmitProgress('Memproses golongan darah...');
+  console.log('Processing blood type');
+
+  // Get blood type value
+  const bloodType = (document.getElementById('bloodType') as HTMLInputElement).value;
+
+  // Update progress
+  updateSubmitProgress('Memproses alamat...');
+  console.log('Processing address information');
+
+  // Get address values
+  const address = (document.getElementById('address') as HTMLTextAreaElement).value;
+  const rtrw = (document.getElementById('rtrw') as HTMLTextAreaElement).value;
+  const postalCode = (document.getElementById('postalCode') as HTMLInputElement).value;
+
+  // Get location values
   const province = (document.getElementById('provinceDropdown') as HTMLSelectElement).value;
   const city = (document.getElementById('cityDropdown') as HTMLSelectElement).value;
   const district = (document.getElementById('districtDropdown') as HTMLSelectElement).value;
   const subDistrict = (document.getElementById('subDistrictDropdown') as HTMLSelectElement).value;
-  const postalCode = (document.getElementById('postalCode') as HTMLInputElement).value;
-  const address = (document.getElementById('address') as HTMLTextAreaElement).value;
-  const rtrw = (document.getElementById('rtrw') as HTMLTextAreaElement).value;
 
-  // Example Google Form URL (you need to replace with your actual form ID and entry IDs)
-  const googleFormBaseUrl = 'https://docs.google.com/forms/d/e/' + PREFILLED_FORM_ID + '/viewform';
+  // Update progress
+  updateSubmitProgress('Menyiapkan data untuk pengiriman...');
+  console.log('Preparing data for submission');
 
-  // Define form field mappings to Google Form entry IDs
-  const formFieldMappings: FormFieldMapping[] = [
-    { field: 'name', entryId: '1552198038' },
-    { field: 'birthDate', entryId: '946724977' },
-    { field: 'gender', entryId: '157174969' },
-    { field: 'phone', entryId: '932581507' },
-    { field: 'address', entryId: '670185927' },
-    { field: 'rtrw', entryId: '1226075221' },
-    { field: 'province', entryId: '1471260286' },
-    { field: 'city', entryId: '198554559' },
-    { field: 'district', entryId: '347596421' },
-    { field: 'subDistrict', entryId: '687992146' },
-    { field: 'postalCode', entryId: '56586160' }
-  ];
+  // Construct the prefilled URL
+  const prefilledUrl = `https://docs.google.com/forms/d/e/${PREFILLED_FORM_ID}/viewform?usp=pp_url` +
+    `&entry.2005620554=${encodeURIComponent(name)}` +
+    `&entry.1045781291=${encodeURIComponent(phone)}` +
+    `&entry.1065046570=${encodeURIComponent(birthPlace)}` +
+    `&entry.1166974658=${encodeURIComponent(birthDate)}` +
+    `&entry.839337160=${encodeURIComponent(gender)}` +
+    `&entry.1758372725=${encodeURIComponent(bloodType)}` +
+    `&entry.1824927963=${encodeURIComponent(address)}` +
+    `&entry.1377008741=${encodeURIComponent(rtrw)}` +
+    `&entry.1799552283=${encodeURIComponent(province)}` +
+    `&entry.1753222212=${encodeURIComponent(city)}` +
+    `&entry.1770822543=${encodeURIComponent(district)}` +
+    `&entry.1846923512=${encodeURIComponent(subDistrict)}` +
+    `&entry.1285779528=${encodeURIComponent(postalCode)}`;
 
-  // Create a mapping of field names to their values
-  const fieldValues: FieldValues = {
-    name,
-    birthDate,
-    gender,
-    phone,
-    address,
-    rtrw,
-    province,
-    city,
-    district,
-    subDistrict,
-    postalCode
-  };
+  // Update progress
+  updateSubmitProgress('Mengirim data...');
+  console.log('Sending data to Google Form');
+  console.log('Form URL:', prefilledUrl);
 
-  // Build the URL with prefilled values using the mappings
-  let prefilledUrl = `${googleFormBaseUrl}?usp=pp_url`;
-  formFieldMappings.forEach(mapping => {
-    const value = fieldValues[mapping.field];
-    prefilledUrl += `&entry.${mapping.entryId}=${encodeURIComponent(value || '')}`;
-  });
-
-  // Show toast notification if Materialize is available
+  // Show success message
   if ((window as any).M && (window as any).M.toast) {
-    (window as any).M.toast({html: 'Submitting form...', classes: 'rounded'});
+    (window as any).M.toast({html: 'Data berhasil dikirim!', classes: 'rounded green'});
   }
+
+  // Update progress
+  updateSubmitProgress('Membuka formulir Google...');
+  console.log('Opening Google Form in new tab');
 
   // Redirect to the Google Form after a short delay
   setTimeout(function() {
     window.open(prefilledUrl, '_blank');
+    
+    // Update progress
+    updateSubmitProgress('Selesai!');
+    console.log('Form submission process completed');
+    
     // Hide loading indicator after redirect
     if (loadingIndicator) (loadingIndicator as HTMLElement).style.display = 'none';
+    
+    // Hide submit progress after a short delay
+    setTimeout(function() {
+      if (submitProgress) (submitProgress as HTMLElement).style.display = 'none';
+    }, 2000);
   }, 1500);
 };
 
@@ -656,6 +717,13 @@ const clearValidationErrors = (): void => {
     element.textContent = '';
     (element as HTMLElement).style.color = '';
   });
+  
+  // Ensure postal code field is never marked as invalid
+  const postalCodeField = document.getElementById('postalCode');
+  if (postalCodeField) {
+    postalCodeField.classList.remove('invalid');
+    postalCodeField.classList.remove('valid');
+  }
 };
 
 /**
@@ -742,12 +810,6 @@ export const initializeForm = (): void => {
   
   // Load location data
   loadLocationData();
-  
-  // Add event listener to the submit button
-  const submitButton = document.getElementById('submitButton');
-  if (submitButton) {
-    submitButton.addEventListener('click', handleFormSubmit);
-  }
   
   // Setup blood type validation
   setupBloodTypeValidation();
