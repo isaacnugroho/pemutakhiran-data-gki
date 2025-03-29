@@ -519,21 +519,34 @@ export const handleFormSubmit = (): void => {
   updateSubmitProgress('Menyiapkan data untuk pengiriman...');
   console.log('Preparing data for submission');
 
+  // &entry.1276998498=nama
+  // &entry.932581507=phone
+  // &entry.1552198038=birthPlace
+  // &entry.946724977=2025-05-05
+  // &entry.157174969=Laki-laki
+  // &entry.1949922653=AB%2B
+  // &entry.670185927=address
+  // &entry.1226075221=rtrw
+  // &entry.1471260286=provinsi
+  // &entry.198554559=kota
+  // &entry.347596421=kecamatan
+  // &entry.687992146=kelurahan
+  // &entry.56586160=12345
   // Construct the prefilled URL
   const prefilledUrl = `https://docs.google.com/forms/d/e/${PREFILLED_FORM_ID}/viewform?usp=pp_url` +
-    `&entry.2005620554=${encodeURIComponent(name)}` +
-    `&entry.1045781291=${encodeURIComponent(phone)}` +
-    `&entry.1065046570=${encodeURIComponent(birthPlace)}` +
-    `&entry.1166974658=${encodeURIComponent(birthDate)}` +
-    `&entry.839337160=${encodeURIComponent(gender)}` +
-    `&entry.1758372725=${encodeURIComponent(bloodType)}` +
-    `&entry.1824927963=${encodeURIComponent(address)}` +
-    `&entry.1377008741=${encodeURIComponent(rtrw)}` +
-    `&entry.1799552283=${encodeURIComponent(province)}` +
-    `&entry.1753222212=${encodeURIComponent(city)}` +
-    `&entry.1770822543=${encodeURIComponent(district)}` +
-    `&entry.1846923512=${encodeURIComponent(subDistrict)}` +
-    `&entry.1285779528=${encodeURIComponent(postalCode)}`;
+    `&entry.1276998498=${encodeURIComponent(name)}` +
+    `&entry.932581507=${encodeURIComponent(phone)}` +
+    `&entry.1552198038=${encodeURIComponent(birthPlace)}` +
+    `&entry.946724977=${encodeURIComponent(birthDate)}` +
+    `&entry.157174969=${encodeURIComponent(gender)}` +
+    `&entry.1949922653=${encodeURIComponent(bloodType)}` +
+    `&entry.670185927=${encodeURIComponent(address)}` +
+    `&entry.1226075221=${encodeURIComponent(rtrw)}` +
+    `&entry.1471260286=${encodeURIComponent(province)}` +
+    `&entry.198554559=${encodeURIComponent(city)}` +
+    `&entry.347596421=${encodeURIComponent(district)}` +
+    `&entry.687992146=${encodeURIComponent(subDistrict)}` +
+    `&entry.56586160=${encodeURIComponent(postalCode)}`;
 
   // Update progress
   updateSubmitProgress('Mengirim data...');
