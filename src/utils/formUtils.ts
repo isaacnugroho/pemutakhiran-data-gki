@@ -544,7 +544,7 @@ export const validateForm = (): boolean => {
     const bloodTypeField = document.getElementById('bloodType') as HTMLInputElement;
     if (bloodTypeField && bloodTypeField.value && !isValidBloodType(bloodTypeField.value)) {
       if ((window as any).M && (window as any).M.toast) {
-        (window as any).M.toast({html: 'Please enter a valid blood type (A, B, AB, O)', classes: 'rounded red'});
+        (window as any).M.toast({html: 'Please enter a valid blood type (A, B, AB, O, A+, A-, B+, B-, AB+, AB-, O+, O-)', classes: 'rounded red'});
       }
       isValid = false;
     }
@@ -557,7 +557,13 @@ export const validateForm = (): boolean => {
  * Validates blood type format
  */
 export const isValidBloodType = (bloodType: string): boolean => {
-  const validBloodTypes = ['A', 'B', 'AB', 'O'];
+  // Empty blood type is valid
+  if (!bloodType || bloodType.trim() === '') {
+    return true;
+  }
+  
+  // Valid blood types with or without Rhesus factor
+  const validBloodTypes = ['A', 'B', 'AB', 'O', 'A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
   return validBloodTypes.includes(bloodType.trim().toUpperCase());
 };
 
@@ -589,37 +595,45 @@ export const initializeForm = (): void => {
     (window as any).M.AutoInit();
   }
   
-  // Initialize datepicker with custom options
-  const datepickers = document.querySelectorAll('.datepicker');
-  if (datepickers.length > 0 && (window as any).M && (window as any).M.Datepicker) {
-    datepickers.forEach(datepicker => {
-      (window as any).M.Datepicker.init(datepicker, {
-        format: 'yyyy-mm-dd',
-        yearRange: 50,
-        showClearBtn: true,
-        i18n: {
-          cancel: 'Batal',
-          clear: 'Hapus',
-          done: 'OK',
-          months: [
-            'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
-            'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
-          ],
-          monthsShort: [
-            'Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun',
-            'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'
-          ],
-          weekdays: [
-            'Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'
-          ],
-          weekdaysShort: [
-            'Min', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'
-          ],
-          weekdaysAbbrev: ['M', 'S', 'S', 'R', 'K', 'J', 'S']
-        }
+  // Initialize datepicker with custom options - with a slight delay to ensure DOM is ready
+  setTimeout(() => {
+    const datepickers = document.querySelectorAll('.datepicker');
+    console.log('Found datepickers:', datepickers.length);
+    
+    if (datepickers.length > 0 && (window as any).M && (window as any).M.Datepicker) {
+      datepickers.forEach(datepicker => {
+        const instance = (window as any).M.Datepicker.init(datepicker, {
+          format: 'yyyy-mm-dd',
+          yearRange: 100,
+          maxDate: new Date(), // Set maximum date to today
+          showClearBtn: true,
+          autoClose: true,
+          firstDay: 1, // Monday
+          i18n: {
+            cancel: 'Batal',
+            clear: 'Hapus',
+            done: 'OK',
+            months: [
+              'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+              'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+            ],
+            monthsShort: [
+              'Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun',
+              'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'
+            ],
+            weekdays: [
+              'Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'
+            ],
+            weekdaysShort: [
+              'Min', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'
+            ],
+            weekdaysAbbrev: ['M', 'S', 'S', 'R', 'K', 'J', 'S']
+          }
+        });
+        console.log('Datepicker initialized:', instance);
       });
-    });
-  }
+    }
+  }, 500);
   
   // Load location data
   loadLocationData();
@@ -629,4 +643,67 @@ export const initializeForm = (): void => {
   if (submitButton) {
     submitButton.addEventListener('click', handleFormSubmit);
   }
+  
+  // Setup blood type validation
+  setupBloodTypeValidation();
+};
+
+/**
+ * Sets up blood type validation
+ */
+const setupBloodTypeValidation = (): void => {
+  // Wait for DOM to be fully loaded
+  setTimeout(() => {
+    const bloodTypeField = document.getElementById('bloodType') as HTMLInputElement;
+    if (bloodTypeField) {
+      console.log('Setting up blood type validation');
+      
+      // Initial validation
+      if (bloodTypeField.value) {
+        bloodTypeField.value = bloodTypeField.value.toUpperCase();
+      }
+      
+      // Add input event listener
+      bloodTypeField.addEventListener('input', function() {
+        // Convert to uppercase
+        this.value = this.value.toUpperCase();
+        
+        // Validate as user types
+        if (this.value && !isValidBloodType(this.value)) {
+          this.classList.add('invalid');
+          this.classList.remove('valid');
+          
+          // Show toast message for invalid input
+          if ((window as any).M && (window as any).M.toast) {
+            (window as any).M.toast({
+              html: 'Valid blood types: A, B, AB, O, A+, A-, B+, B-, AB+, AB-, O+, O-',
+              classes: 'rounded orange',
+              displayLength: 2000
+            });
+          }
+        } else {
+          this.classList.remove('invalid');
+          if (this.value) {
+            this.classList.add('valid');
+          }
+        }
+      });
+      
+      // Add blur event for final validation
+      bloodTypeField.addEventListener('blur', function() {
+        if (this.value && !isValidBloodType(this.value)) {
+          this.classList.add('invalid');
+          this.value = ''; // Clear invalid input
+          
+          // Show toast message for invalid input
+          if ((window as any).M && (window as any).M.toast) {
+            (window as any).M.toast({
+              html: 'Invalid blood type cleared. Valid types: A, B, AB, O, A+, A-, B+, B-, AB+, AB-, O+, O-',
+              classes: 'rounded red'
+            });
+          }
+        }
+      });
+    }
+  }, 500); // Short delay to ensure DOM is ready
 };

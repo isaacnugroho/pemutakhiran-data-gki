@@ -56,42 +56,43 @@ export default function Home() {
                     </div>
 
                     <div className="row">
-                      <div className="input-field col s12 m6">
+                      <div className="input-field col s12">
                         <input id="name" type="text" className="validate" />
                         <label htmlFor="name">Nama Lengkap*</label>
                       </div>
                     </div>
 
                     <div className="row">
-                      <div className="input-field col s12 m6">
+                      <div className="input-field col s12">
                         <input id="phone" type="tel" className="validate" />
                         <label htmlFor="phone">Nomor Telepon*</label>
                       </div>
                     </div>
 
                     <div className="row">
-                      <div className="input-field col s12 m6">
+                      <div className="input-field col s12">
                         <input id="birthPlace" type="text" className="validate" />
                         <label htmlFor="birthPlace">Tempat Lahir*</label>
                       </div>
                     </div>
 
                     <div className="row">
-                      <div className="input-field col s12 m6">
-                        <input id="birthDate" type="text" className="datepicker validate" />
+                      <div className="input-field col s12">
+                        <input id="birthDate" type="text" className="datepicker" />
                         <label htmlFor="birthDate">Tanggal Lahir*</label>
+                        <span className="helper-text">Klik untuk memilih tanggal</span>
                       </div>
                     </div>
 
                     <div className="row">
-                      <div className="input-field col s12 m6">
+                      <div className="input-field col s12">
                         <input id="bloodType" type="text" className="validate" />
                         <label htmlFor="bloodType">Golongan Darah</label>
                       </div>
                     </div>
 
                     <div className="row">
-                      <div className="input-field col s12 m6">
+                      <div className="input-field col s12">
                         <label id="gender-label" htmlFor="gender" className="active">Jenis Kelamin*</label>
                         <div className="radio-container">
                           <p>
@@ -108,7 +109,7 @@ export default function Home() {
                           </p>
                         </div>
                       </div>
-                      <div className="input-field col s12 m6">
+                      <div className="input-field col s12">
                         {/* Empty space for alignment or can be used for another field */}
                       </div>
                     </div>
@@ -128,46 +129,46 @@ export default function Home() {
                     </div>
 
                     <div className="row">
-                      <div className="input-field col s12 m6">
+                      <div className="input-field col s12">
                         <textarea id="rtrw" className="materialize-textarea validate"></textarea>
                         <label htmlFor="rtrw">RT/RW*</label>
                       </div>
                     </div>
 
                     <div className="row">
-                      <div className="input-field col s12 m6">
-                        <select id="provinceDropdown" className="browser-default">
-                          <option value="" disabled selected>Pilih Provinsi</option>
+                      <div className="input-field col s12">
+                        <select id="provinceDropdown" className="browser-default" defaultValue="">
+                          <option value="" disabled>Pilih Provinsi</option>
                         </select>
                       </div>
                     </div>
 
                     <div className="row">
-                      <div className="input-field col s12 m6">
-                        <select id="cityDropdown" className="browser-default" disabled>
-                          <option value="" disabled selected>Pilih Kota/Kabupaten</option>
+                      <div className="input-field col s12">
+                        <select id="cityDropdown" className="browser-default" disabled defaultValue="">
+                          <option value="" disabled>Pilih Kota/Kabupaten</option>
                         </select>
                       </div>
                     </div>
 
                     <div className="row">
-                      <div className="input-field col s12 m6">
-                        <select id="districtDropdown" className="browser-default" disabled>
-                          <option value="" disabled selected>Pilih Kecamatan</option>
+                      <div className="input-field col s12">
+                        <select id="districtDropdown" className="browser-default" disabled defaultValue="">
+                          <option value="" disabled>Pilih Kecamatan</option>
                         </select>
                       </div>
                     </div>
 
                     <div className="row">
-                      <div className="input-field col s12 m6">
-                        <select id="subDistrictDropdown" className="browser-default" disabled>
-                          <option value="" disabled selected>Pilih Kelurahan</option>
+                      <div className="input-field col s12">
+                        <select id="subDistrictDropdown" className="browser-default" disabled defaultValue="">
+                          <option value="" disabled>Pilih Kelurahan</option>
                         </select>
                       </div>
                     </div>
 
                     <div className="row">
-                      <div className="input-field col s12 m6">
+                      <div className="input-field col s12">
                         <input id="postalCode" type="text" className="validate" readOnly />
                         <label htmlFor="postalCode" className="active">Kode Pos</label>
                       </div>
