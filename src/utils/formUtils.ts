@@ -471,17 +471,17 @@ export const handleFormSubmit = (): void => {
   }
 
   // Update progress
-  updateSubmitProgress('Mengumpulkan data...');
+  updateSubmitProgress('Menyiapkan data...');
   console.log('Form validation successful, collecting form data');
 
   // Get form values
   const name = (document.getElementById('name') as HTMLInputElement).value;
-  const phone = (document.getElementById('phone') as HTMLInputElement).value;
+  // const phone = (document.getElementById('phone') as HTMLInputElement).value;
   const birthPlace = (document.getElementById('birthPlace') as HTMLInputElement).value;
   const birthDate = (document.getElementById('birthDate') as HTMLInputElement).value;
 
   // Update progress
-  updateSubmitProgress('Memproses jenis kelamin...');
+  // updateSubmitProgress('Memproses jenis kelamin...');
   console.log('Processing gender selection');
 
   // Get gender value
@@ -494,14 +494,14 @@ export const handleFormSubmit = (): void => {
   }
 
   // Update progress
-  updateSubmitProgress('Memproses golongan darah...');
+  // updateSubmitProgress('Memproses golongan darah...');
   console.log('Processing blood type');
 
   // Get blood type value
   const bloodType = (document.getElementById('bloodType') as HTMLInputElement).value;
 
   // Update progress
-  updateSubmitProgress('Memproses alamat...');
+  // updateSubmitProgress('Memproses alamat...');
   console.log('Processing address information');
 
   // Get address values
@@ -518,7 +518,22 @@ export const handleFormSubmit = (): void => {
   // Update progress
   updateSubmitProgress('Menyiapkan data untuk pengiriman...');
   console.log('Preparing data for submission');
-
+  //https://docs.google.com/forms/d/e/${PREFILLED_FORM_ID}/viewform?usp=pp_url
+  //&entry.113342069=nama+lengkap
+  //&entry.687432613=tempat+lahir
+  //&entry.1450724760=2020-01-01
+  //&entry.992412807=LAKI-LAKI
+  //&entry.1152849548=A
+  //&entry.216880000=0987654321
+  //&entry.729585732=i@gmail.com
+  //&entry.1792121930=komplek
+  //&entry.1886783988=005/005
+  //&entry.1490996644=dki+jakarta
+  //&entry.2047480218=jakarta+selatan
+  //&entry.1430165775=kecamatan
+  //&entry.1486481296=kelurahan
+  //&entry.1101194549=12345
+  
   // &entry.1276998498=nama
   // &entry.932581507=phone
   // &entry.1552198038=birthPlace
@@ -534,19 +549,19 @@ export const handleFormSubmit = (): void => {
   // &entry.56586160=12345
   // Construct the prefilled URL
   const prefilledUrl = `https://docs.google.com/forms/d/e/${PREFILLED_FORM_ID}/viewform?usp=pp_url` +
-    `&entry.1276998498=${encodeURIComponent(name)}` +
-    `&entry.932581507=${encodeURIComponent(phone)}` +
-    `&entry.1552198038=${encodeURIComponent(birthPlace)}` +
-    `&entry.946724977=${encodeURIComponent(birthDate)}` +
-    `&entry.157174969=${encodeURIComponent(gender)}` +
-    `&entry.1949922653=${encodeURIComponent(bloodType)}` +
-    `&entry.670185927=${encodeURIComponent(address)}` +
-    `&entry.1226075221=${encodeURIComponent(rtrw)}` +
-    `&entry.1471260286=${encodeURIComponent(province)}` +
-    `&entry.198554559=${encodeURIComponent(city)}` +
-    `&entry.347596421=${encodeURIComponent(district)}` +
-    `&entry.687992146=${encodeURIComponent(subDistrict)}` +
-    `&entry.56586160=${encodeURIComponent(postalCode)}`;
+    `&entry.113342069=${encodeURIComponent(name)}` +
+    // `&entry.216880000=${encodeURIComponent(phone)}` +
+    `&entry.687432613=${encodeURIComponent(birthPlace)}` +
+    `&entry.1450724760=${encodeURIComponent(birthDate)}` +
+    `&entry.992412807=${encodeURIComponent(gender)}` +
+    `&entry.1152849548=${encodeURIComponent(bloodType)}` +
+    `&entry.1792121930=${encodeURIComponent(address)}` +
+    `&entry.1886783988=${encodeURIComponent(rtrw)}` +
+    `&entry.1490996644=${encodeURIComponent(province)}` +
+    `&entry.2047480218=${encodeURIComponent(city)}` +
+    `&entry.1430165775=${encodeURIComponent(district)}` +
+    `&entry.1486481296=${encodeURIComponent(subDistrict)}` +
+    `&entry.1101194549=${encodeURIComponent(postalCode)}`;
 
   // Update progress
   updateSubmitProgress('Mengirim data...');

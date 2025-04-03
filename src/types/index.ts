@@ -13,7 +13,7 @@ export interface FieldValues {
   birthDate: string;
   birthPlace?: string;
   gender: string;
-  phone: string;
+  // phone: string;
   address: string;
   rtrw: string;
   province: string;

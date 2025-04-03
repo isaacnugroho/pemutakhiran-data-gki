@@ -16,8 +16,8 @@ export default function Home() {
   return (
     <div className="container">
       <Head>
-        <title>Form Pemutakhiran Data</title>
-        <meta name="description" content="Form Pemutakhiran Data GKI" />
+        <title>Form Data Diri</title>
+        <meta name="description" content="Penunjang Form Pemutakhiran Data Jemaat GKI Kebayoran Baru" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
@@ -63,13 +63,13 @@ export default function Home() {
                       </div>
                     </div>
 
-                    <div className="row">
+                    {/* <div className="row">
                       <div className="input-field col s12">
                         <input id="phone" type="tel" className="validate" />
                         <label htmlFor="phone">Nomor Telepon*</label>
                         <span className="helper-text"></span>
                       </div>
-                    </div>
+                    </div> */}
 
                     <div className="row">
                       <div className="input-field col s12">
@@ -197,7 +197,7 @@ export default function Home() {
                             }
                           }}
                         >
-                          Submit
+                          Lanjut ke Google Form Pemutakhiran Data Jemaat GKI Kebayoran Baru
                           <i className="material-icons right">send</i>
                         </button>
                         <div id="submitProgress" className="progress-indicator" style={{ display: 'none', marginTop: '10px' }}>
@@ -229,10 +229,11 @@ export default function Home() {
       <footer className="page-footer">
         <div className="footer-copyright">
           <div className="container center-align">
-            2023 Form Pemutakhiran Data
+            2025 Form Pemutakhiran Data Jemaat GKI Kebayoran Baru
           </div>
         </div>
       </footer>
     </div>
   );
 }
+
