@@ -607,7 +607,7 @@ export const validateForm = (): boolean => {
   // Check required fields
   const requiredFields: RequiredField[] = [
     { id: 'name', message: 'Nama lengkap harus diisi' },
-    { id: 'phone', message: 'Nomor telepon harus diisi' },
+    // { id: 'phone', message: 'Nomor telepon harus diisi' },
     { id: 'birthDate', message: 'Tanggal lahir harus diisi' },
     { id: 'address', message: 'Alamat lengkap harus diisi' },
     { id: 'provinceDropdown', message: 'Provinsi harus dipilih' },
