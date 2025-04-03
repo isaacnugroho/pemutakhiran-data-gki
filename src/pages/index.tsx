@@ -26,7 +26,7 @@ export default function Home() {
           <div className="col s12">
             <div className="card">
               <div className="card-content">
-                <span className="card-title center-align">Form Pemutakhiran Data</span>
+                <span className="card-title center-align">Penunjang Form Pemutakhiran Data Jemaat GKI Kebayoran Baru</span>
                 
                 {/* Loading Indicator */}
                 <div id="loadingIndicator" className="center-align" style={{ marginBottom: '20px' }}>
@@ -51,7 +51,7 @@ export default function Home() {
                     {/* Personal Information Section */}
                     <div className="row">
                       <div className="col s12">
-                        <h5>Informasi Pribadi</h5>
+                        <h5>Data Diri</h5>
                       </div>
                     </div>
 
