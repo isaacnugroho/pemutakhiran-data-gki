@@ -43,7 +43,7 @@ main {
 .card-title {
   font-weight: 500 !important;
   margin-bottom: 30px !important;
-  color: #066086 !important;
+  color: #191970 !important;
 }
 
 .card-action {
@@ -66,30 +66,30 @@ h6.section-title {
 }
 
 .input-field label {
-  color: #066086;
+  color: #191970 !important;
 }
 
 .input-field input[type=text]:focus + label,
 .input-field input[type=email]:focus + label,
 .input-field input[type=tel]:focus + label,
 .input-field textarea:focus + label {
-  color: #066086 !important;
+  color: #191970 !important;
 }
 
 .input-field input[type=text]:focus,
 .input-field input[type=email]:focus,
 .input-field input[type=tel]:focus,
 .input-field textarea:focus {
-  border-bottom: 1px solid #066086 !important;
-  box-shadow: 0 1px 0 0 #066086 !important;
+  border-bottom: 1px solid #191970 !important;
+  box-shadow: 0 1px 0 0 #191970 !important;
 }
 
 .input-field .prefix {
-  color: #066086;
+  color: #191970;
 }
 
 .input-field .prefix.active {
-  color: #066086;
+  color: #191970;
 }
 
 input:not([type]), 
@@ -122,8 +122,8 @@ input[type=tel]:not(.browser-default):focus:not([readonly]),
 input[type=number]:not(.browser-default):focus:not([readonly]), 
 input[type=search]:not(.browser-default):focus:not([readonly]), 
 textarea.materialize-textarea:focus:not([readonly]) {
-  border-bottom: 2px solid #066086 !important;
-  box-shadow: 0 1px 0 0 #066086 !important;
+  border-bottom: 2px solid #191970 !important;
+  box-shadow: 0 1px 0 0 #191970 !important;
 }
 
 input:not([type]):focus:not([readonly])+label, 
@@ -139,7 +139,7 @@ input[type=tel]:not(.browser-default):focus:not([readonly])+label,
 input[type=number]:not(.browser-default):focus:not([readonly])+label, 
 input[type=search]:not(.browser-default):focus:not([readonly])+label, 
 textarea.materialize-textarea:focus:not([readonly])+label {
-  color: #066086 !important;
+  color: #191970 !important;
 }
 
 .helper-text {
@@ -161,21 +161,21 @@ textarea.materialize-textarea:focus:not([readonly])+label {
 
 .loading-text {
   margin-top: 10px;
-  color: #066086;
+  color: #191970;
   font-weight: 500;
 }
 
 .spinner-teal-only {
-  border-color: #066086;
+  border-color: #191970;
 }
 
 /* Dropdown styling */
 .select-wrapper input.select-dropdown:focus {
-  border-bottom: 1px solid #066086 !important;
+  border-bottom: 1px solid #191970 !important;
 }
 
 .dropdown-content li > a, .dropdown-content li > span {
-  color: #066086 !important;
+  color: #191970 !important;
 }
 
 .dropdown-content li.selected > span {
@@ -215,19 +215,19 @@ textarea.materialize-textarea:focus:not([readonly])+label {
 
 [type="radio"]:checked+span:after, 
 [type="radio"].with-gap:checked+span:after {
-  background-color: #066086;
-  border: 2px solid #066086;
+  background-color: #191970;
+  border: 2px solid #191970;
 }
 
 [type="radio"]:checked+span:after,
 [type="radio"].with-gap:checked+span:before,
 [type="radio"].with-gap:checked+span:after {
-  border: 2px solid #066086;
+  border: 2px solid #191970;
 }
 
 /* Button styling */
 .btn, .btn-large {
-  background-color: #066086 !important;
+  background-color: #191970 !important;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   transition: background-color 0.3s;
@@ -235,7 +235,7 @@ textarea.materialize-textarea:focus:not([readonly])+label {
 }
 
 .btn:hover, .btn-large:hover {
-  background-color: #066086 !important;
+  background-color: #191970 !important;
 }
 
 /* Mandatory field indicator */
@@ -253,15 +253,19 @@ textarea.materialize-textarea:focus:not([readonly])+label {
 
 /* Toast styling */
 .toast {
-  background-color: #066086;
+  background-color: #191970;
   border-radius: 24px;
   padding: 10px 25px;
 }
 
 /* Footer styling */
 .page-footer {
-  background-color: #066086;
+  background-color: #191970;
   margin-top: 40px;
+}
+
+.row {
+  margin-bottom: 0;
 }
 
 /* Loading indicator styles */
@@ -272,7 +276,7 @@ textarea.materialize-textarea:focus:not([readonly])+label {
 
 /* Section styles */
 h5 {
-  color: #066086;
+  color: #191970;
   margin: 30px 0 20px 0;
   border-bottom: 1px solid #e0e0e0;
   padding-bottom: 10px;
