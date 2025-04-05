@@ -485,20 +485,14 @@ export const handleFormSubmit = (): void => {
   console.log('Processing gender selection');
 
   // Get gender value
-  let gender = '';
-  const genderRadios = document.querySelectorAll('input[name="gender"]') as NodeListOf<HTMLInputElement>;
-  const genderRadiosArray = Array.from(genderRadios);
-  const selectedGender = genderRadiosArray.find(radio => radio.checked);
-  if (selectedGender) {
-    gender = selectedGender.value;
-  }
+  const gender = (document.querySelector('input[name="gender"]:checked') as HTMLInputElement).value;
 
   // Update progress
   // updateSubmitProgress('Memproses golongan darah...');
   console.log('Processing blood type');
 
   // Get blood type value
-  const bloodType = (document.getElementById('bloodType') as HTMLInputElement).value;
+  const bloodType = (document.querySelector('input[name="bloodType"]:checked') as HTMLInputElement).value;
 
   // Update progress
   // updateSubmitProgress('Memproses alamat...');
@@ -624,13 +618,13 @@ export const validateForm = (): boolean => {
     showFieldSuccess('gender-label');
   }
 
-  // Validate blood type format if blood type field is not empty
-  const bloodTypeField = document.getElementById('bloodType') as HTMLInputElement;
-  if (bloodTypeField && bloodTypeField.value && !isValidBloodType(bloodTypeField.value)) {
-    showFieldError('bloodType', 'Golongan darah tidak valid (A, B, AB, O, A+, A-, B+, B-, AB+, AB-, O+, O-)');
+  // Check blood type selection
+  const bloodTypeSelected = document.querySelector('input[name="bloodType"]:checked');
+  if (!bloodTypeSelected) {
+    showFieldError('bloodType-label', 'Golongan darah harus dipilih');
     isValid = false;
-  } else if (bloodTypeField && bloodTypeField.value) {
-    showFieldSuccess('bloodType');
+  } else {
+    showFieldSuccess('bloodType-label');
   }
 
   return isValid;

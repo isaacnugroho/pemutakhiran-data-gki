@@ -89,8 +89,33 @@ export default function Home() {
 
                     <div className="row">
                       <div className="input-field col s12">
-                        <input id="bloodType" type="text" className="validate" />
-                        <label htmlFor="bloodType">Golongan Darah</label>
+                        <label id="bloodType-label" htmlFor="bloodType" className="active">Golongan Darah*</label>
+                        <div className="radio-container">
+                          <p>
+                            <label>
+                              <input id="bloodType-a" name="bloodType" type="radio" value="A" />
+                              <span>A</span>
+                            </label>
+                          </p>
+                          <p>
+                            <label>
+                              <input id="bloodType-b" name="bloodType" type="radio" value="B" />
+                              <span>B</span>
+                            </label>
+                          </p>
+                          <p>
+                            <label>
+                              <input id="bloodType-o" name="bloodType" type="radio" value="O" />
+                              <span>O</span>
+                            </label>
+                          </p>
+                          <p>
+                            <label>
+                              <input id="bloodType-ab" name="bloodType" type="radio" value="AB" />
+                              <span>AB</span>
+                            </label>
+                          </p>
+                        </div>
                         <span className="helper-text"></span>
                       </div>
                     </div>
@@ -126,7 +151,7 @@ export default function Home() {
                     <div className="row">
                       <div className="input-field col s12">
                         <textarea id="address" className="materialize-textarea validate"></textarea>
-                        <label htmlFor="address">Alamat Lengkap*</label>
+                        <label htmlFor="address">Alamat Lengkap (tuliskan nama perumahan/komplek paling depan)*</label>
                         <span className="helper-text"></span>
                       </div>
                     </div>
