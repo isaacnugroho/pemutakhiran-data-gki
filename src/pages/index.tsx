@@ -152,8 +152,8 @@ export default function Home() {
                       <div className="input-field col s12">
                         <textarea id="address" className="materialize-textarea validate"></textarea>
                         <label htmlFor="address">Alamat Lengkap*</label>
-                        <span className="helper-text2">Harap isi alamat dengan dimulai dari nama perumahan/komplek</span>
                         <span className="helper-text"></span>
+                        <span className="helper-text2">Harap isi alamat dengan dimulai dari nama perumahan/komplek</span>
                       </div>
                     </div>
 
