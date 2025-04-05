@@ -61,7 +61,7 @@ h6.section-title {
 }
 
 .input-field {
-  margin-bottom: 20px;
+  margin-bottom: 0px;
   position: relative;
 }
 
@@ -144,6 +144,10 @@ textarea.materialize-textarea:focus:not([readonly])+label {
 
 .helper-text {
   min-height: 18px;
+}
+
+.helper-text:empty {
+  display: none;
 }
 
 /* Progress indicator styling */
@@ -262,10 +266,6 @@ textarea.materialize-textarea:focus:not([readonly])+label {
 .page-footer {
   background-color: #191970;
   margin-top: 40px;
-}
-
-.row {
-  margin-bottom: 0;
 }
 
 /* Loading indicator styles */
