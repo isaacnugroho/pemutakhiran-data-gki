@@ -1,4 +1,5 @@
-import { FormFieldMapping, FieldValues, RequiredField } from '../types';
+import { RequiredField } from '../types';
+import { parse, format } from 'date-fns';
 
 // Define the location data interface
 interface LocationData {
@@ -478,7 +479,8 @@ export const handleFormSubmit = (): void => {
   const name = (document.getElementById('name') as HTMLInputElement).value;
   // const phone = (document.getElementById('phone') as HTMLInputElement).value;
   const birthPlace = (document.getElementById('birthPlace') as HTMLInputElement).value;
-  const birthDate = (document.getElementById('birthDate') as HTMLInputElement).value;
+  const birthDateStr = (document.getElementById('birthDate') as HTMLInputElement).value;
+  const birthDate = parse(birthDateStr, 'dd-MM-yyyy', new Date());
 
   // Update progress
   // updateSubmitProgress('Memproses jenis kelamin...');
@@ -532,7 +534,7 @@ export const handleFormSubmit = (): void => {
     `&entry.113342069=${encodeURIComponent(name)}` +
     // `&entry.216880000=${encodeURIComponent(phone)}` +
     `&entry.687432613=${encodeURIComponent(birthPlace)}` +
-    `&entry.1450724760=${encodeURIComponent(birthDate)}` +
+    `&entry.1450724760=${encodeURIComponent(format(birthDate, 'yyyy-MM-dd'))}` +
     `&entry.992412807=${encodeURIComponent(gender === 'Laki-laki' ? 'LAKI-LAKI' : 'PEREMPUAN')}` +
     `&entry.1152849548=${encodeURIComponent(bloodType)}` +
     `&entry.1792121930=${encodeURIComponent(address)}` +
@@ -784,7 +786,7 @@ export const initializeForm = (): void => {
     if (datepickers.length > 0 && (window as any).M && (window as any).M.Datepicker) {
       datepickers.forEach(datepicker => {
         const instance = (window as any).M.Datepicker.init(datepicker, {
-          format: 'yyyy-mm-dd',
+          format: 'dd-mm-yyyy',
           yearRange: 100,
           maxDate: new Date(), // Set maximum date to today
           showClearBtn: true,
@@ -851,7 +853,7 @@ const setupBloodTypeValidation = (): void => {
           // Show toast message for invalid input
           if ((window as any).M && (window as any).M.toast) {
             (window as any).M.toast({
-              html: 'Valid blood types: A, B, AB, O, A+, A-, B+, B-, AB+, AB-, O+, O-',
+              html: 'Valid blood types: A, B, AB, O',
               classes: 'rounded orange',
               displayLength: 2000
             });
@@ -873,7 +875,7 @@ const setupBloodTypeValidation = (): void => {
           // Show toast message for invalid input
           if ((window as any).M && (window as any).M.toast) {
             (window as any).M.toast({
-              html: 'Invalid blood type cleared. Valid types: A, B, AB, O, A+, A-, B+, B-, AB+, AB-, O+, O-',
+              html: 'Invalid blood type cleared. Valid types: A, B, AB, O',
               classes: 'rounded red'
             });
           }

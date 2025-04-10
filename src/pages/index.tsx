@@ -82,7 +82,7 @@ export default function Home() {
                     <div className="row">
                       <div className="input-field col s12">
                         <input id="birthDate" type="text" className="datepicker" />
-                        <label htmlFor="birthDate">Tanggal Lahir*</label>
+                        <label htmlFor="birthDate">Tanggal Lahir (dd-mm-yyyy)*</label>
                         <span className="helper-text">Klik untuk memilih tanggal</span>
                       </div>
                     </div>
