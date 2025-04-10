@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
 import { initializeForm } from '../utils/formUtils';
+import packageInfo from '../../package.json';
 
 export default function Home() {
   const [isClient, setIsClient] = useState(false);
@@ -255,7 +256,8 @@ export default function Home() {
       <footer className="page-footer">
         <div className="footer-copyright">
           <div className="container center-align">
-            2025 Form Pemutakhiran Data Jemaat GKI Kebayoran Baru
+            &copy;2025 Form Pemutakhiran Data Jemaat GKI Kebayoran Baru
+            <div className="version">v{packageInfo.version}</div>
           </div>
         </div>
       </footer>
