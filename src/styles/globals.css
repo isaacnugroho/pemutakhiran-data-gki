@@ -98,6 +98,8 @@ h6.section-title {
   color: #191970;
 }
 
+/* .md .datepicker-controls .select-month input { width: 5em; } */
+
 input:not([type]), 
 input[type=text]:not(.browser-default), 
 input[type=password]:not(.browser-default), 

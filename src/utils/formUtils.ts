@@ -480,7 +480,7 @@ export const handleFormSubmit = (): void => {
   // const phone = (document.getElementById('phone') as HTMLInputElement).value;
   const birthPlace = (document.getElementById('birthPlace') as HTMLInputElement).value;
   const birthDateStr = (document.getElementById('birthDate') as HTMLInputElement).value;
-  const birthDate = parse(birthDateStr, 'dd-MM-yyyy', new Date());
+  const birthDate = parse(birthDateStr, 'dd MMM yyyy', new Date());
 
   // Update progress
   // updateSubmitProgress('Memproses jenis kelamin...');
@@ -785,13 +785,51 @@ export const initializeForm = (): void => {
     
     if (datepickers.length > 0 && (window as any).M && (window as any).M.Datepicker) {
       datepickers.forEach(datepicker => {
+        const currentYear = new Date().getFullYear();
         const instance = (window as any).M.Datepicker.init(datepicker, {
-          format: 'dd-mm-yyyy',
-          yearRange: 100,
+          format: 'dd mmm yyyy',
+          yearRange: [currentYear - 100, currentYear],
+          yearRangeReverse: true,
           maxDate: new Date(), // Set maximum date to today
           showClearBtn: true,
           autoClose: true,
           firstDay: 1, // Monday
+          onOpen: () => {
+            setTimeout(() => {
+              const dropdownInput = document.querySelector('.select-year .select-dropdown') as HTMLInputElement;
+              if (!dropdownInput) return;
+          
+              const targetId = dropdownInput.getAttribute('data-target');
+              const dropdownUl = document.getElementById(targetId || '');
+              if (!dropdownUl) return;
+          
+              const listItems = Array.from(dropdownUl.querySelectorAll('li'));
+          
+              // Keep track of which item was selected
+              const selected = dropdownUl.querySelector('.selected');
+              const selectedText = selected?.textContent?.trim();
+          
+              // Clear and re-add reversed
+              dropdownUl.innerHTML = '';
+              listItems.reverse().forEach(item => {
+                dropdownUl.appendChild(item);
+              });
+              // console.log("reversed years");
+              if (selectedText) {
+                const newSelected = Array.from(dropdownUl.querySelectorAll('li')).find(
+                  li => li.textContent?.trim() === selectedText
+                );
+                if (newSelected) {
+                  newSelected.classList.add('selected');
+                  newSelected.scrollIntoView({
+                    behavior: 'auto',
+                    block: 'center',
+                  });
+                }
+                // console.log("selected year");
+              }
+            }, 100); // Delay long enough for the dropdown to be created
+          },
           i18n: {
             cancel: 'Batal',
             clear: 'Hapus',
