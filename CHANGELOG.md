@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.4.0](https://github.com/isaacnugroho/pemutakhiran-data-gki/compare/v1.3.0...v1.4.0) (2025-04-12)
+
+
+### Features
+
+* added hint text to month year title ([0bc02fb](https://github.com/isaacnugroho/pemutakhiran-data-gki/commit/0bc02fb8e380be8d6ec4b8296edcc13d930793ac))
+
 ## [1.3.0](https://github.com/isaacnugroho/pemutakhiran-data-gki/compare/v1.2.1...v1.3.0) (2025-04-10)
 
 
