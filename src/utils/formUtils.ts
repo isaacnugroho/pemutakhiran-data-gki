@@ -1,3 +1,4 @@
+import { log } from 'console';
 import { RequiredField } from '../types';
 import { parse, format } from 'date-fns';
 
@@ -781,7 +782,7 @@ export const initializeForm = (): void => {
   // Initialize datepicker with custom options - with a slight delay to ensure DOM is ready
   setTimeout(() => {
     const datepickers = document.querySelectorAll('.datepicker');
-    console.log('Found datepickers:', datepickers.length);
+    // console.log('Found datepickers:', datepickers.length);
     
     if (datepickers.length > 0 && (window as any).M && (window as any).M.Datepicker) {
       datepickers.forEach(datepicker => {
@@ -794,41 +795,11 @@ export const initializeForm = (): void => {
           showClearBtn: true,
           autoClose: true,
           firstDay: 1, // Monday
-          onOpen: () => {
-            setTimeout(() => {
-              const dropdownInput = document.querySelector('.select-year .select-dropdown') as HTMLInputElement;
-              if (!dropdownInput) return;
-          
-              const targetId = dropdownInput.getAttribute('data-target');
-              const dropdownUl = document.getElementById(targetId || '');
-              if (!dropdownUl) return;
-          
-              const listItems = Array.from(dropdownUl.querySelectorAll('li'));
-          
-              // Keep track of which item was selected
-              const selected = dropdownUl.querySelector('.selected');
-              const selectedText = selected?.textContent?.trim();
-          
-              // Clear and re-add reversed
-              dropdownUl.innerHTML = '';
-              listItems.reverse().forEach(item => {
-                dropdownUl.appendChild(item);
-              });
-              // console.log("reversed years");
-              if (selectedText) {
-                const newSelected = Array.from(dropdownUl.querySelectorAll('li')).find(
-                  li => li.textContent?.trim() === selectedText
-                );
-                if (newSelected) {
-                  newSelected.classList.add('selected');
-                  newSelected.scrollIntoView({
-                    behavior: 'auto',
-                    block: 'center',
-                  });
-                }
-                // console.log("selected year");
-              }
-            }, 100); // Delay long enough for the dropdown to be created
+          // onOpen: () => {
+          //   customizeDatePicker();
+          // },
+          onDraw: () => {
+            customizeDatePicker();
           },
           i18n: {
             cancel: 'Batal',
@@ -861,6 +832,52 @@ export const initializeForm = (): void => {
   
   // Setup blood type validation
   setupBloodTypeValidation();
+};
+
+const customizeDatePicker = () => {
+  setTimeout(() => {
+    const selectsElement = document.querySelector('.datepicker-controls');
+
+    if (selectsElement && !selectsElement.querySelector('.datepicker-selects-hint')) {
+      const hint = document.createElement('span');
+      hint.classList.add('datepicker-selects-hint');
+      hint.textContent = '(klik untuk pilih bulan - tahun)';
+      selectsElement.appendChild(hint);
+    }
+
+    const dropdownInput = document.querySelector('.select-year .select-dropdown') as HTMLInputElement;
+    if (!dropdownInput) return;
+
+    const targetId = dropdownInput.getAttribute('data-target');
+    const dropdownUl = document.getElementById(targetId || '');
+    if (!dropdownUl) return;
+
+    const listItems = Array.from(dropdownUl.querySelectorAll('li'));
+
+    // Keep track of which item was selected
+    const selected = dropdownUl.querySelector('.selected');
+    const selectedText = selected?.textContent?.trim();
+
+    // Clear and re-add reversed
+    dropdownUl.innerHTML = '';
+    listItems.reverse().forEach(item => {
+      dropdownUl.appendChild(item);
+    });
+    // console.log("reversed years");
+    if (selectedText) {
+      const newSelected = Array.from(dropdownUl.querySelectorAll('li')).find(
+        li => li.textContent?.trim() === selectedText
+      );
+      if (newSelected) {
+        newSelected.classList.add('selected');
+        newSelected.scrollIntoView({
+          behavior: 'auto',
+          block: 'center',
+        });
+      }
+      // console.log("selected year");
+    }
+  }, 100); // Delay long enough for the dropdown to be created
 };
 
 /**
