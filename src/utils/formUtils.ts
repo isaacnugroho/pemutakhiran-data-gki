@@ -480,9 +480,10 @@ export const handleFormSubmit = (): void => {
   const name = (document.getElementById('name') as HTMLInputElement).value;
   // const phone = (document.getElementById('phone') as HTMLInputElement).value;
   const birthPlace = (document.getElementById('birthPlace') as HTMLInputElement).value;
-  const birthDateStr = (document.getElementById('birthDate') as HTMLInputElement).value;
-  const birthDate = parse(birthDateStr, 'dd MMM yyyy', new Date());
-
+  const birthDateElem = document.getElementById('birthDate') as HTMLInputElement;
+  const birthDateInstance = M.Datepicker.getInstance(birthDateElem);
+  const birthDate: Date = birthDateInstance.date;
+  console.log('Date', format(birthDate, 'dd MMMM yyyy'));
   // Update progress
   // updateSubmitProgress('Memproses jenis kelamin...');
   console.log('Processing gender selection');
