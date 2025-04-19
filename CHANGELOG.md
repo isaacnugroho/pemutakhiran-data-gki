@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.4.1](https://github.com/isaacnugroho/pemutakhiran-data-gki/compare/v1.4.0...v1.4.1) (2025-04-19)
+
+
+### Bug Fixes
+
+* fix date parsing ([3a83f55](https://github.com/isaacnugroho/pemutakhiran-data-gki/commit/3a83f551ffb40e9d21647d0ba1430c3e8e9dafd7))
+
 ## [1.4.0](https://github.com/isaacnugroho/pemutakhiran-data-gki/compare/v1.3.0...v1.4.0) (2025-04-12)
 
 
