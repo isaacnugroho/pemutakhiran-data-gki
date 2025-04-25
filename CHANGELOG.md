@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.4.2](https://github.com/isaacnugroho/pemutakhiran-data-gki/compare/v1.4.1...v1.4.2) (2025-04-25)
+
+
+### Bug Fixes
+
+* allow redirection for safari browser ([6d36fd1](https://github.com/isaacnugroho/pemutakhiran-data-gki/commit/6d36fd113cd60ed9a13c760cc977921a64873ab4))
+
 ### [1.4.1](https://github.com/isaacnugroho/pemutakhiran-data-gki/compare/v1.4.0...v1.4.1) (2025-04-19)
 
 
