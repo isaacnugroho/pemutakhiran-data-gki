@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
-import { initializeForm } from '../utils/formUtils';
+import { initializeForm, validateFormData, handleFormSubmit } from '../utils/formUtils';
 import packageInfo from '../../package.json';
 
 export default function Home() {
@@ -63,14 +63,6 @@ export default function Home() {
                         <span className="helper-text"></span>
                       </div>
                     </div>
-
-                    {/* <div className="row">
-                      <div className="input-field col s12">
-                        <input id="phone" type="tel" className="validate" />
-                        <label htmlFor="phone">Nomor Telepon*</label>
-                        <span className="helper-text"></span>
-                      </div>
-                    </div> */}
 
                     <div className="row">
                       <div className="input-field col s12">
@@ -217,13 +209,16 @@ export default function Home() {
                           type="button" 
                           className="btn waves-effect waves-light"
                           onClick={() => {
-                            console.log('Submit button clicked');
-                            if (typeof window !== 'undefined') {
-                              const { handleFormSubmit } = require('../utils/formUtils');
-                              handleFormSubmit();
-                            }
-                          }}
-                        >
+                                console.log('Submit button clicked');
+                                if (validateFormData()) {
+                                  if (typeof window !== 'undefined') {
+                                    const url = handleFormSubmit();
+                                    window.open(url, '_blank');
+                                  }
+                                }
+                              }
+                          }
+                          >
                           Lanjut ke Google Form Pemutakhiran Data Jemaat GKI Kebayoran Baru
                           <i className="material-icons right">send</i>
                         </button>

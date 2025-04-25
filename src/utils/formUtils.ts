@@ -429,9 +429,9 @@ export const updateSubmitProgress = (message: string): void => {
 /**
  * Handles form submission
  */
-export const handleFormSubmit = (): void => {
-  console.log('handleFormSubmit');
-  if (typeof document === 'undefined') return;
+export const validateFormData = (): boolean => {
+  console.log('validateFormData');
+  if (typeof document === 'undefined') return false;
   
   // Show loading indicator
   const loadingIndicator = document.getElementById('loadingIndicator');
@@ -469,12 +469,17 @@ export const handleFormSubmit = (): void => {
         displayLength: 4000
       });
     }
-    return;
+    return false;
   }
-
-  // Update progress
-  updateSubmitProgress('Menyiapkan data...');
+  if (loadingIndicator) (loadingIndicator as HTMLElement).style.display = 'none';
+  if (submitProgress) (submitProgress as HTMLElement).style.display = 'none';
   console.log('Form validation successful, collecting form data');
+  return true;
+}
+
+export const handleFormSubmit = (): string => {
+    // Update progress
+  updateSubmitProgress('Menyiapkan data...');
 
   // Get form values
   const name = (document.getElementById('name') as HTMLInputElement).value;
@@ -560,23 +565,28 @@ export const handleFormSubmit = (): void => {
   // Update progress
   updateSubmitProgress('Membuka formulir Google...');
   console.log('Opening Google Form in new tab');
+  const progressIndicator = document.getElementById('submitProgress');
+  if (progressIndicator) {
+    (progressIndicator as HTMLElement).style.display = 'none';
+  }
 
+  return prefilledUrl;
   // Redirect to the Google Form after a short delay
-  setTimeout(function() {
-    window.open(prefilledUrl, '_blank');
+  // setTimeout(function() {
+  //   window.open(prefilledUrl, '_blank');
     
-    // Update progress
-    updateSubmitProgress('Selesai!');
-    console.log('Form submission process completed');
+  //   // Update progress
+  //   updateSubmitProgress('Selesai!');
+  //   console.log('Form submission process completed');
     
-    // Hide loading indicator after redirect
-    if (loadingIndicator) (loadingIndicator as HTMLElement).style.display = 'none';
+  //   // Hide loading indicator after redirect
+  //   if (loadingIndicator) (loadingIndicator as HTMLElement).style.display = 'none';
     
-    // Hide submit progress after a short delay
-    setTimeout(function() {
-      if (submitProgress) (submitProgress as HTMLElement).style.display = 'none';
-    }, 2000);
-  }, 1500);
+  //   // Hide submit progress after a short delay
+  //   setTimeout(function() {
+  //     if (submitProgress) (submitProgress as HTMLElement).style.display = 'none';
+  //   }, 2000);
+  // }, 1500);
 };
 
 /**
