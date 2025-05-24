@@ -27,8 +27,15 @@ export default function Home() {
           <div className="col s12">
             <div className="card">
               <div className="card-content">
-                <span className="card-title center-align">Penunjang Form Pemutakhiran Data Jemaat GKI Kebayoran Baru</span>
-                
+
+                <div className="card-title" style={{ display: 'flex', alignItems: 'center' }}>
+                  <img 
+                    src="/assets/logo.jpg" 
+                    alt="Logo" 
+                    style={{ height: '96px', marginRight: '10px' }} 
+                  />
+                  <span>Penunjang Form Pemutakhiran Data Jemaat GKI Kebayoran Baru</span>
+                </div>
                 {/* Loading Indicator */}
                 <div id="loadingIndicator" className="center-align" style={{ marginBottom: '20px' }}>
                   <div className="preloader-wrapper small active">
@@ -217,7 +224,7 @@ export default function Home() {
                                   }
                                 }
                               }
-                          }
+                            }
                           >
                           Lanjut ke Google Form Pemutakhiran Data Jemaat GKI Kebayoran Baru
                           <i className="material-icons right">send</i>
